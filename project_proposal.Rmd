@@ -32,8 +32,8 @@ This data includes all the rat sightings reported to 311 from 2010 to now (updat
 
 Challenges:
   
-  * Our chosen dataset is extremely large and contains data from the last 13 years. We anticipate it will be difficult to parse through filter for the data we need.
-  * There are a lot of location types we couldn’t potentially use as a predictor for rat sightings, so it may be difficult to narrow them down to what might be most significant.
+  * Our chosen dataset is extremely large and contains data from the last 13 years. We anticipate it will be difficult to parse through and filter for the data we need.
+  * There are a lot of location types we could potentially use as a predictor for rat sightings, so it may be difficult to narrow them down to what might be most significant.
 
   
 ## Planned timeline
@@ -43,7 +43,7 @@ Challenges:
 
   * Week of 11/27: Finish plotting and creating map/do regression analyses, start writing report
 
-  * Week of 12/4: Create website and implement the pages with visualizations, and regression analyses, record screencast, finish writing report
+  * Week of 12/4: Create website and implement the pages with visualizations and regression analyses, record screencast, finish writing report
 
 
 

@@ -54,9 +54,9 @@ the longitude and latitude, and more.
 Challenges:
 
 - Our chosen dataset is extremely large and contains data from the last
-  13 years. We anticipate it will be difficult to parse through filter
-  for the data we need.
-- There are a lot of location types we couldn’t potentially use as a
+  13 years. We anticipate it will be difficult to parse through and
+  filter for the data we need.
+- There are a lot of location types we could potentially use as a
   predictor for rat sightings, so it may be difficult to narrow them
   down to what might be most significant.
 
@@ -71,5 +71,5 @@ Challenges:
   analyses, start writing report
 
 - Week of 12/4: Create website and implement the pages with
-  visualizations, and regression analyses, record screencast, finish
+  visualizations and regression analyses, record screencast, finish
   writing report
