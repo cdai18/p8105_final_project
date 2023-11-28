@@ -1,4 +1,4 @@
-P9105 Final Project Proposal
+P8105 Final Project Proposal
 ================
 
 ## Group members
@@ -29,7 +29,9 @@ the COVID-19 pandemic impact rat sightings?
 ## Intended final products
 
 - A webpage with a homepage, a page for statistical analysis, a page for
-  a map, and a page for graphs and visualizations on the data
+  a map, and a page for graphs and visualizations on the data Decrease
+  in rat sighting since Last year April Set time, before and after covid
+  Map Plots covid regression
 - A report describing how we completed the project
 - A short screencast illustrating our project webpage
 
