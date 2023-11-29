@@ -1,0 +1,50 @@
+---
+title: "P8105 Final Project"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup}
+
+library(tidyverse)
+library(patchwork)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 6,
+  fig.asp = 0.6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+Preliminary data import and cleaning:
+
+```{r}
+rats_df = 
+  read_csv("./data/rat_sightings.csv") %>% 
+  janitor::clean_names() %>% 
+  select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location)
+```
+
+
+
+
+
+
+
+
+
+
+
+
