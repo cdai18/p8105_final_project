@@ -9,6 +9,8 @@ editor_options:
 
 library(tidyverse)
 library(patchwork)
+library(ggplot2)
+library(ggmap)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -44,6 +46,11 @@ rats_df =
 head(rats_df)
 ```
 
+```{r}
+nyc_map<-get_map(location = c(lon = -74.00, lat = 40.71), maptype = "terrain", zoom = 11)
+
+ggmap(nyc_map)
+```
 
 
 
