@@ -49,7 +49,9 @@ head(rats_df)
 ```{r}
 nyc_map<-get_map(location = c(lon = -74.00, lat = 40.71), maptype = "terrain", zoom = 11)
 
-ggmap(nyc_map)
+
+ggmap(nyc_map)+
+  geom_polygon(data=rats_df,aes(x=latitude,y=longitude,fill=unique_key))
 ```
 
 
