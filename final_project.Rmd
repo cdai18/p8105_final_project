@@ -39,6 +39,11 @@ rats_df =
 
 
 
+## Making the density map
+```{r}
+head(rats_df)
+```
+
 
 
 
