@@ -5,7 +5,7 @@ date: "2023-12-01"
 output: github_document
 ---
 
-# Monthly Rat Sightings Before and After Rat Czar Office
+## Monthly Rat Sightings Before and After Rat Czar Office
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -63,7 +63,7 @@ The bar graph above illustrates the number of reported rat sightings from April 
 A cursory glance at the graph suggests that there is variability in the number of sightings reported each month, which may be influenced by a variety of factors including seasonal changes and the urban environment. While there is no immediate drastic reduction in sightings following the appointment of the Rat Czar, this could imply that strategies employed require time to take effect, or that their impact is not instantly observable from this data alone.
 
 
-# Rat Sightings Comparison by Borough Before and After Rat Czar Office
+## Rat Sightings Comparison by Borough Before and After Rat Czar Office
 ### Rat Sightings Comparison by Borough Before and After Rat Czar Office
 ```{r}
 
@@ -106,4 +106,93 @@ Additionally, it's noticeable that certain boroughs, such as Brooklyn and Manhat
 Lastly, the unspecified category indicates reports that did not have a borough listed. The presence of this category suggests that data collection or reporting may have inconsistencies, which could affect the analysis.
 
 Overall, while the Rat Czar's impact isn't immediately discernible from the graph, ongoing analysis with more data over time will be essential to understand the full effect of the initiatives taken to control the rat population.
+
+## Rat Sightings and Covid-19
+The COVID-19 pandemic brought unprecedented challenges to urban management and public health. In New York City, changes in human activity during the pandemic may have influenced rat behavior and sightings. This section analyzes the rat sightings data to observe potential shifts in rat populations across the city's boroughs during the pre-pandemic, pandemic, and post-pandemic periods.
+
+### Defining Pandemic Periods for Analysis
+```{r define-pandemic-periods}
+# Define the dates for the COVID-19 pandemic periods in New York City
+pre_pandemic_start <- as.Date("2019-01-01")
+pre_pandemic_end <- as.Date("2020-02-29")
+pandemic_start <- as.Date("2020-03-01")
+pandemic_end <- as.Date("2021-12-31")
+post_pandemic_start <- as.Date("2022-01-01")
+
+# Classify each sighting by pandemic period
+rat_data$Pandemic_Period <- case_when(
+  rat_data$Created_Date < pandemic_start ~ "Pre-Pandemic",
+  rat_data$Created_Date >= pandemic_start & rat_data$Created_Date <= pandemic_end ~ "During Pandemic",
+  rat_data$Created_Date > pandemic_end ~ "Post-Pandemic",
+  TRUE ~ NA_character_
+)
+```
+
+### Visualizing Rat Sightings during Different Pandemic Period
+
+General Plot (Overall Trends):
+* Objective: To observe the overall trend of rat sightings in New York City during different periods of the COVID-19 pandemic.
+* Method: Aggregate the total number of rat sightings for each pandemic period across all boroughs. Then, normalize this data by calculating the average daily sightings to account for the varying lengths of each period.
+* Plot Type: A bar chart where each bar represents a different pandemic period (Pre-pandemic, During Pandemic, Post-pandemic), showing the average daily number of sightings.
+```{r}
+# Calculate the number of days in each pandemic period
+num_days_pre_pandemic <- as.numeric(pandemic_start - pre_pandemic_start)
+num_days_during_pandemic <- as.numeric(pandemic_end - pandemic_start + 1)
+num_days_post_pandemic <- as.numeric(Sys.Date() - post_pandemic_start)
+
+# Aggregate the counts of rat sightings by pandemic period and calculate average daily sightings
+sightings_by_period_overall <- rat_data %>%
+  group_by(Pandemic_Period) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  filter(!is.na(Pandemic_Period)) %>%
+  mutate(Avg_Daily_Sightings = Count / case_when(
+    Pandemic_Period == "Pre-Pandemic" ~ num_days_pre_pandemic,
+    Pandemic_Period == "During Pandemic" ~ num_days_during_pandemic,
+    Pandemic_Period == "Post-Pandemic" ~ num_days_post_pandemic
+  ))
+
+# Plot the data showing average daily sightings for each pandemic period
+ggplot(sightings_by_period_overall, aes(x = Pandemic_Period, y = Avg_Daily_Sightings, fill = Pandemic_Period)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Pre-Pandemic" = "#6baed6", "During Pandemic" = "#fd8d3c", "Post-Pandemic" = "#74c476")) +
+  labs(title = 'Average Daily Rat Sightings During Different COVID-19 Pandemic Periods',
+       x = 'Pandemic Period',
+       y = 'Average Daily Sightings',
+       fill = 'Pandemic Period') +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+
+### Visualizing Rat Sightings by Borough during Different Pandemic Period
+
+By Borough Plot (Specific Trends):
+* Objective: To compare rat sighting trends across different boroughs of New York City during the COVID-19 pandemic.
+* Method: Group the data by both borough and pandemic period. Calculate the average daily sightings for each borough in each period. This approach reveals if some boroughs experienced more significant changes in rat sightings than others during the pandemic.
+* Plot Type: A grouped bar chart with each group representing a borough and each bar within the group representing a different pandemic period. This visualization allows for a direct comparison of sighting trends across boroughs and periods.
+
+```{r}
+# Aggregate the counts of rat sightings by borough and pandemic period, then calculate average daily sightings
+sightings_by_borough_period <- rat_data %>%
+  group_by(Borough, Pandemic_Period) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  filter(!is.na(Pandemic_Period)) %>%
+  mutate(Avg_Daily_Sightings = Count / case_when(
+    Pandemic_Period == "Pre-Pandemic" ~ num_days_pre_pandemic,
+    Pandemic_Period == "During Pandemic" ~ num_days_during_pandemic,
+    Pandemic_Period == "Post-Pandemic" ~ num_days_post_pandemic
+  ))
+
+# Plot the data showing average daily sightings by borough for each pandemic period
+ggplot(sightings_by_borough_period, aes(x = Borough, y = Avg_Daily_Sightings, fill = Pandemic_Period)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("Pre-Pandemic" = "#6baed6", "During Pandemic" = "#fd8d3c", "Post-Pandemic" = "#74c476")) +
+  labs(title = 'Average Daily Rat Sightings by Borough During Different Pandemic Periods',
+       x = 'Borough',
+       y = 'Average Daily Sightings',
+       fill = 'Pandemic Period') +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = "bottom")
+```
 
