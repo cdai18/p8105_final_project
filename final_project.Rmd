@@ -36,7 +36,9 @@ Preliminary data import and cleaning:
 rats_df = 
   read_csv("./data/rat_sightings.csv") %>% 
   janitor::clean_names() %>% 
-  select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location)
+  select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %>% 
+  separate(created_date, into = c("created_date", "time"), sep = " ") %>% 
+  separate(created_date, into = c("month", "day", "year"), sep = "/")
 ```
 
 
@@ -55,6 +57,11 @@ ggmap(nyc_map)+
 ```
 
 
+## Regression analyses
+
+```{r}
+rats_df
+```
 
 
 
