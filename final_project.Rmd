@@ -49,12 +49,45 @@ head(rats_df)
 ```
 
 ```{r}
-nyc_map<-get_map(location = c(lon = -74.00, lat = 40.71), maptype = "terrain", zoom = 11)
 
-
-ggmap(nyc_map)+
-  geom_polygon(data=rats_df,aes(x=latitude,y=longitude,fill=unique_key))
+rats_march=rats_df|>
+  filter(month %in% "01", 
+         year%in% "2023")|>
+  drop_na()|>
+  ggplot(aes(x=longitude,y=latitude))+
+  theme_minimal() +
+  labs(title = "Population Density Map as of March 2023")+
+  geom_point(aes(color=borough),alpha=0.3)
+  
+rats_march
 ```
+
+```{r}
+rats_october=rats_df|>
+  filter(month %in% "11", 
+         year%in% "2023")|>
+  drop_na()|>
+  ggplot(aes(x=longitude,y=latitude))+
+  theme_minimal() +
+  labs(title = "Population Density Map as of October 2023")+
+  geom_point(aes(color=borough,alpha=0.3))
+  
+rats_october
+```
+
+```{r fig.height=100, fig.width=150}
+rats_2023=rats_df|>
+  filter(year %in% "2023")|>
+  drop_na()|>
+  ggplot(aes(x=longitude,y=latitude))+
+  theme_minimal() +
+  labs(title = "Population Density Map as of 2023")+
+  geom_point(aes(color=borough,alpha=0.3))+
+  facet_wrap(~ month, scales = "fixed", ncol = 6)
+  
+rats_2023
+```
+
 
 
 ## Regression analyses
