@@ -224,6 +224,20 @@ ggplot(sightings_by_period_overall, aes(x = Pandemic_Period, y = Avg_Daily_Sight
 
 ![](finalproject_graphs_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
+### Interpretation of Rat Sightings During COVID-19 Pandemic Periods
+
+The bar chart above provides a comparison of average daily rat sightings
+in New York City across three distinct periods related to the COVID-19
+pandemic: during, post, and pre-pandemic. Notably, the average daily
+sightings were highest before the pandemic, which may reflect normal
+urban activity and waste production providing ample food sources for
+rats. Sightings dipped during the pandemic, likely due to the closure of
+restaurants and reduced pedestrian traffic, which may have limited food
+availability for the rat population. Although sightings have increased
+in the post-pandemic period, they have not returned to pre-pandemic
+levels, suggesting a lasting impact of the pandemic on rat sightings or
+possibly continued changes in human behavior and waste management.
+
 ### Visualizing Rat Sightings by Borough during Different Pandemic Period
 
 By Borough Plot (Specific Trends): \* Objective: To compare rat sighting
@@ -263,3 +277,20 @@ ggplot(sightings_by_borough_period, aes(x = Borough, y = Avg_Daily_Sightings, fi
 ```
 
 ![](finalproject_graphs_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+### Interpretation of Average Daily Rat Sightings by Borough During Pandemic Periods
+
+The bar chart above contrasts the average daily rat sightings across New
+York City boroughs before, during, and after the COVID-19 pandemic.
+Brooklyn stands out with the highest average sightings in the
+pre-pandemic period, indicating a substantial rat population or
+heightened reporting activity. A decline in sightings is noted during
+the pandemic across all boroughs, likely a result of the pandemic’s
+disruptions to normal urban life and its impact on rat foraging
+behaviors. The post-pandemic period sees a continuation of this reduced
+level of sightings, suggesting potential long-term effects of the
+pandemic on rat activity or the success of pest control measures
+implemented during this time. The data also includes an ‘Unspecified’
+category, denoting sightings that could not be allocated to a particular
+borough, highlighting a need for better data classification in future
+analyses.
