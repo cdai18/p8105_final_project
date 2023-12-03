@@ -128,12 +128,12 @@ rats_november=rats_df|>
   filter(borough != "Unspecified")
 
 ggmap(nyc_map)+
-geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_march)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_november)+
   theme_minimal() +
   labs(title = "Population Density Map as of November 2023")
 ```
 
-    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
+    ## Warning: Removed 12 rows containing missing values (`geom_point()`).
 
 <img src="final_project_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
 
