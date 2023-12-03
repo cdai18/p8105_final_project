@@ -6,11 +6,11 @@ editor_options:
 ---
 
 ```{r setup}
-
 library(tidyverse)
 library(patchwork)
 library(ggplot2)
 library(ggmap)
+library(osmdata)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -49,33 +49,46 @@ head(rats_df)
 ```
 
 ```{r}
+nyc_map <- get_stadiamap(bbox = c(left = -74.26, bottom = 40.5, right = -73.7, top = 40.9),zoom=10)
+
+
+ggmap(nyc_map)
+```
+
+```{r}
 
 rats_march=rats_df|>
   filter(month %in% "01", 
          year%in% "2023")|>
-  drop_na()|>
-  ggplot(aes(x=longitude,y=latitude))+
+  filter(borough != "Unspecified")
+
+ggmap(nyc_map)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_march)+
   theme_minimal() +
-  labs(title = "Population Density Map as of March 2023")+
-  geom_point(aes(color=borough),alpha=0.3)
-  
-rats_march
+  labs(title = "Population Density Map as of March 2023")
+
+
+
+
 ```
 
 ```{r}
-rats_october=rats_df|>
+rats_november=rats_df|>
   filter(month %in% "11", 
          year%in% "2023")|>
-  drop_na()|>
-  ggplot(aes(x=longitude,y=latitude))+
+  filter(borough != "Unspecified")
+
+ggmap(nyc_map)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_march)+
   theme_minimal() +
-  labs(title = "Population Density Map as of October 2023")+
-  geom_point(aes(color=borough,alpha=0.3))
-  
-rats_october
+  labs(title = "Population Density Map as of November 2023")
+
+
+
+
 ```
 
-```{r fig.height=100, fig.width=150}
+```{r fig.height=10, fig.width=12}
 rats_2023=rats_df|>
   filter(year %in% "2023")|>
   drop_na()|>

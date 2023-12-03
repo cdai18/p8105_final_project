@@ -28,6 +28,12 @@ library(ggmap)
     ## ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.
 
 ``` r
+library(osmdata)
+```
+
+    ## Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
+
+``` r
 knitr::opts_chunk$set(
   echo = TRUE,
   fig.width = 6,
@@ -88,34 +94,48 @@ head(rats_df)
     ## # ℹ 3 more variables: latitude <dbl>, longitude <dbl>, location <chr>
 
 ``` r
-rats_march=rats_df|>
-  filter(month %in% "01", 
-         year%in% "2023")|>
-  drop_na()|>
-  ggplot(aes(x=longitude,y=latitude))+
-  theme_minimal() +
-  labs(title = "Population Density Map as of March 2023")+
-  geom_point(aes(color=borough),alpha=0.3)
-  
-rats_march
+nyc_map <- get_stadiamap(bbox = c(left = -74.26, bottom = 40.5, right = -73.7, top = 40.9),zoom=10)
+```
+
+    ## ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
+
+``` r
+ggmap(nyc_map)
 ```
 
 <img src="final_project_files/figure-gfm/unnamed-chunk-3-1.png" width="90%" />
 
 ``` r
-rats_october=rats_df|>
-  filter(month %in% "11", 
+rats_march=rats_df|>
+  filter(month %in% "01", 
          year%in% "2023")|>
-  drop_na()|>
-  ggplot(aes(x=longitude,y=latitude))+
+  filter(borough != "Unspecified")
+
+ggmap(nyc_map)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_march)+
   theme_minimal() +
-  labs(title = "Population Density Map as of October 2023")+
-  geom_point(aes(color=borough,alpha=0.3))
-  
-rats_october
+  labs(title = "Population Density Map as of March 2023")
 ```
 
+    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
+
 <img src="final_project_files/figure-gfm/unnamed-chunk-4-1.png" width="90%" />
+
+``` r
+rats_november=rats_df|>
+  filter(month %in% "11", 
+         year%in% "2023")|>
+  filter(borough != "Unspecified")
+
+ggmap(nyc_map)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_march)+
+  theme_minimal() +
+  labs(title = "Population Density Map as of November 2023")
+```
+
+    ## Warning: Removed 5 rows containing missing values (`geom_point()`).
+
+<img src="final_project_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
 
 ``` r
 rats_2023=rats_df|>
@@ -130,7 +150,7 @@ rats_2023=rats_df|>
 rats_2023
 ```
 
-<img src="final_project_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
+<img src="final_project_files/figure-gfm/unnamed-chunk-6-1.png" width="90%" />
 
 ## Regression analyses
 
