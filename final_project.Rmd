@@ -11,6 +11,7 @@ library(patchwork)
 library(ggplot2)
 library(ggmap)
 library(osmdata)
+library(mgcv)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -37,7 +38,7 @@ rats_df =
   read_csv("./data/rat_sightings.csv") %>% 
   janitor::clean_names() %>% 
   select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %>% 
-  separate(created_date, into = c("created_date", "time"), sep = " ") %>% 
+  separate(created_date, into = c("created_date", "time", "am_pm"), sep = " ") %>% 
   separate(created_date, into = c("month", "day", "year"), sep = "/")
 ```
 
@@ -105,8 +106,23 @@ rats_2023
 
 ## Regression analyses
 
+ANOVA test on location_type:
+
 ```{r}
-rats_df
+loc_df = 
+  rats_df %>% 
+    filter(year == "2018" | year == "2019" | year == "2020" | year == "2021" | year == "2022" | year == "2023") %>% 
+    select(year, location_type) %>% 
+    group_by(year, location_type) %>% 
+    summarize(sightings = n()) %>% 
+    arrange(desc(sightings)) %>% 
+    filter(location_type == "3+ Family Apt. Building" | location_type == "1-2 Family Dwelling" | location_type == "Commercial Building" | location_type == "Construction Site")
+
+loc_df %>% 
+  ggplot(aes(x = year, y = sightings, fill = location_type)) + 
+  geom_area(aes(group = location_type, alpha = 0.8)) +
+  theme_bw() + 
+  labs(title = "Rat sightings by location type 2018-2023")
 ```
 
 
