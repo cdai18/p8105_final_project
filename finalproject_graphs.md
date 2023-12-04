@@ -282,3 +282,67 @@ The data indicates that the pandemic may have had a significant and
 enduring impact on rat sighting dynamics in the city, warranting further
 investigation into urban wildlife patterns and public health
 implications in the post-pandemic era.
+
+``` r
+# Grouping data by borough, period, and date, then calculating the average daily sightings
+borough_period_sightings <- analysis_data %>%
+  group_by(Borough, Period, Date = as.Date(Created_Date)) %>%
+  summarise(Daily_Count = n(), .groups = 'drop') %>%
+  group_by(Borough, Period) %>%
+  summarise(Avg_Daily_Sightings = mean(Daily_Count), .groups = 'drop')
+
+# Define a color palette
+colors <- c("#FF6666", "#FFCC66", "#66CC66", "#66CCCC", "#6666CC", "#CC66CC", "#000000")
+
+# Assign colors to boroughs
+borough_colors <- setNames(colors, unique(borough_period_sightings$Borough))
+
+# Plot with the selected color palette
+ggplot(borough_period_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Borough)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = borough_colors) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    axis.title = element_text(size = 14),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = 'Average Daily Rat Sightings by Borough (2019-2023)',
+    subtitle = "Across Pre-COVID, During-COVID, and Post-COVID Periods",
+    x = 'COVID-19 Period',
+    y = 'Average Daily Sightings',
+    fill = 'Borough'
+  )
+```
+
+![](finalproject_graphs_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+### Interpretation of the Average Daily Rat Sightings by Borough
+
+The bar chart compares average daily rat sightings in New York City by
+borough, across three different periods: Pre-COVID, During-COVID, and
+Post-COVID. Each borough is distinctly colored, allowing for an easy
+visual comparison.
+
+- **During-COVID**: Brooklyn shows the highest average daily rat
+  sightings among all boroughs, indicating that this borough may have
+  experienced the greatest impact from pandemic-related changes. These
+  changes could include disruptions in waste management and alterations
+  in human activity that could affect rat behavior.
+
+- **Post-COVID**: While there is a general decrease in sightings in the
+  Post-COVID period compared to During-COVID, the number of sightings
+  remains higher than in the Pre-COVID period. This suggests that some
+  of the factors affecting rat sightings during the pandemic may
+  continue to influence these numbers.
+
+- **Pre-COVID**: This period serves as a baseline, showing the average
+  daily sightings before the pandemic began. All boroughs have
+  relatively lower sightings compared to During-COVID, reflecting the
+  typical urban rat activity.
+
+This visual analysis underscores the impact of the COVID-19 pandemic on
+rat sightings in New York City, particularly in Brooklyn. It also
+prompts further investigation into the enduring effects of the pandemic
+on urban wildlife and the efficacy of control measures post-pandemic.
