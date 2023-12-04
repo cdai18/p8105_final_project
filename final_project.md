@@ -136,6 +136,13 @@ geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_novembe
     ## Warning: Removed 12 rows containing missing values (`geom_point()`).
 
 <img src="final_project_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
+\## Interpretation of the Graph \>\>The bar graph above illustrates the
+rat density as of March 2023 and November 2023 over the boroughs.
+Between March and November 2023, the rat czar program was implemented on
+April 2023. These two graphs shows the comparison in density one month
+before the program started and the most recent density (as of November
+2023). There are no significant change in density visible from the graph
+except it seems less dense in staten island.
 
 ``` r
 rats_2023=rats_df|>
@@ -151,6 +158,13 @@ rats_2023
 ```
 
 <img src="final_project_files/figure-gfm/unnamed-chunk-6-1.png" width="90%" />
+
+> > A graph showing the density change throughout the year of 2023.While
+> > some density change is visible through the graph, it is not
+> > significant enough to show major changes made by the rat czar
+> > program. The rat problem still seems severe through out the entire
+> > new york city. The density change maybe explained by other factors
+> > such as weather change and rats’ breeding season.
 
 ## Regression analyses
 
