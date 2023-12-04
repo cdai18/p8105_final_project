@@ -202,6 +202,29 @@ ggplot(yearly_sightings, aes(x = Year, y = Count)) +
 
 ![](finalproject_graphs_files/figure-gfm/covid-preprocessing-1.png)<!-- -->
 
+### Interpretation of the Yearly Rat Sightings Graph
+
+The bar chart illustrates the trend in yearly rat sightings reported in
+New York City from 2010 through 2023. There is a notable increase in
+sightings in the year 2020, marked by a dashed pink line, which
+coincides with the onset of the COVID-19 pandemic. This rise suggests a
+potential impact of the pandemic on rat sighting occurrences, possibly
+due to changes in human activity patterns and urban waste dynamics
+during the pandemic.
+
+Subsequent years, 2021 and 2022, maintain a higher level of sightings
+compared to the pre-pandemic years, indicating that the factors
+contributing to increased sightings may have persisted beyond the
+initial pandemic phase. The data for 2023 shows a continued prevalence
+of rat sightings, suggesting that the conditions favorable to rat
+visibility or population growth are still present.
+
+However, without further analysis, we cannot conclusively attribute
+changes in rat sighting trends solely to the pandemic. Other
+environmental, social, or data collection factors might also play a
+role. Ongoing monitoring and analysis would be necessary to understand
+the full range of influences on rat sightings in New York City.
+
 ### Daily Rat Sightings Comparison
 
 ``` r
@@ -237,3 +260,25 @@ ggplot(daily_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Period))
 ```
 
 ![](finalproject_graphs_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+### Interpretation of the Average Daily Rat Sightings Graph
+
+The graph shows a comparison of average daily rat sightings in New York
+City across three periods: before the COVID-19 pandemic (Pre-COVID),
+during the pandemic (During-COVID), and after the pandemic’s prevalence
+(Post-COVID). The “During-COVID” period exhibits the highest average
+daily sightings, depicted by the red bar, which could reflect the
+disruption of human activities and waste patterns during the pandemic,
+potentially leading to increased rat visibility or population changes.
+
+Interestingly, the “Post-COVID” period, represented by the green bar,
+shows a continuation of higher average sightings compared to the
+“Pre-COVID” period (blue bar). This suggests that the conditions leading
+to increased sightings during the pandemic may have persisted or that
+the rat population has been lastingly impacted by the pandemic’s
+effects.
+
+The data indicates that the pandemic may have had a significant and
+enduring impact on rat sighting dynamics in the city, warranting further
+investigation into urban wildlife patterns and public health
+implications in the post-pandemic era.
