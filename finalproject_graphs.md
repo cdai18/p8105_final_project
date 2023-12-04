@@ -163,134 +163,186 @@ sightings. This section analyzes the rat sightings data to observe
 potential shifts in rat populations across the city’s boroughs during
 the pre-pandemic, pandemic, and post-pandemic periods.
 
-### Defining Pandemic Periods for Analysis
+### General Analysis
 
 ``` r
-# Define the dates for the COVID-19 pandemic periods in New York City
-pre_pandemic_start <- as.Date("2019-01-01")
-pre_pandemic_end <- as.Date("2020-02-29")
-pandemic_start <- as.Date("2020-03-01")
-pandemic_end <- as.Date("2021-12-31")
-post_pandemic_start <- as.Date("2022-01-01")
+rat_data$Year <- year(rat_data$Created_Date)
+# Aggregate the number of sightings per year
+yearly_sightings <- rat_data %>%
+  group_by(Year) %>%
+  summarise(Count = n(), .groups = 'drop')
 
-# Classify each sighting by pandemic period
-rat_data$Pandemic_Period <- case_when(
-  rat_data$Created_Date < pandemic_start ~ "Pre-Pandemic",
-  rat_data$Created_Date >= pandemic_start & rat_data$Created_Date <= pandemic_end ~ "During Pandemic",
-  rat_data$Created_Date > pandemic_end ~ "Post-Pandemic",
-  TRUE ~ NA_character_
-)
+# The data must be ungrouped before plotting in some ggplot2 versions
+yearly_sightings <- ungroup(yearly_sightings)
+
+# Plotting the number of rat sightings per year with enhancements
+max_count <- max(yearly_sightings$Count)
+ggplot(yearly_sightings, aes(x = Year, y = Count)) +
+  geom_col(fill = "#69b3a2") +
+  geom_vline(xintercept = 2020, linetype="dashed", color = "#e36bae", size=1.5) +
+  geom_text(aes(x = 2020, y = max_count - 5000, label = "COVID"),  # Adjust position here
+            color = "#e36bae", vjust = 1, angle = 90, size = 4, fontface = "bold") +
+  scale_x_continuous(breaks = yearly_sightings$Year, labels = scales::label_wrap(5)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = 'Yearly Rat Sightings in New York City',
+       subtitle = "An increase in sightings is observed around the start of COVID.",
+       x = 'Year',
+       y = 'Number of Sightings',
+       caption = "Data source: NYC Open Data") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 20, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14),
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    axis.title = element_text(size = 16),
+    legend.position = "none",
+    plot.caption = element_text(hjust = 0, vjust = 1)
+  )
 ```
 
-### Visualizing Rat Sightings during Different Pandemic Period
+![](finalproject_graphs_files/figure-gfm/covid-preprocessing-1.png)<!-- -->
 
-General Plot (Overall Trends): \* Objective: To observe the overall
-trend of rat sightings in New York City during different periods of the
-COVID-19 pandemic. \* Method: Aggregate the total number of rat
-sightings for each pandemic period across all boroughs. Then, normalize
-this data by calculating the average daily sightings to account for the
-varying lengths of each period. \* Plot Type: A bar chart where each bar
-represents a different pandemic period (Pre-pandemic, During Pandemic,
-Post-pandemic), showing the average daily number of sightings.
+### Interpretation of the Yearly Rat Sightings Graph
+
+The bar chart illustrates the trend in yearly rat sightings reported in
+New York City from 2010 through 2023. There is a notable increase in
+sightings in the year 2020, marked by a dashed pink line, which
+coincides with the onset of the COVID-19 pandemic. This rise suggests a
+potential impact of the pandemic on rat sighting occurrences, possibly
+due to changes in human activity patterns and urban waste dynamics
+during the pandemic.
+
+Subsequent years, 2021 and 2022, maintain a higher level of sightings
+compared to the pre-pandemic years, indicating that the factors
+contributing to increased sightings may have persisted beyond the
+initial pandemic phase. The data for 2023 shows a continued prevalence
+of rat sightings, suggesting that the conditions favorable to rat
+visibility or population growth are still present.
+
+However, without further analysis, we cannot conclusively attribute
+changes in rat sighting trends solely to the pandemic. Other
+environmental, social, or data collection factors might also play a
+role. Ongoing monitoring and analysis would be necessary to understand
+the full range of influences on rat sightings in New York City.
+
+### Daily Rat Sightings Comparison
 
 ``` r
-# Calculate the number of days in each pandemic period
-num_days_pre_pandemic <- as.numeric(pandemic_start - pre_pandemic_start)
-num_days_during_pandemic <- as.numeric(pandemic_end - pandemic_start + 1)
-num_days_post_pandemic <- as.numeric(Sys.Date() - post_pandemic_start)
+# Define the pandemic period and the post-pandemic start
+pandemic_start <- as.Date("2020-03-11")
+post_pandemic_start <- as.Date("2023-05-05")
 
-# Aggregate the counts of rat sightings by pandemic period and calculate average daily sightings
-sightings_by_period_overall <- rat_data %>%
-  group_by(Pandemic_Period) %>%
-  summarise(Count = n(), .groups = 'drop') %>%
-  filter(!is.na(Pandemic_Period)) %>%
-  mutate(Avg_Daily_Sightings = Count / case_when(
-    Pandemic_Period == "Pre-Pandemic" ~ num_days_pre_pandemic,
-    Pandemic_Period == "During Pandemic" ~ num_days_during_pandemic,
-    Pandemic_Period == "Post-Pandemic" ~ num_days_post_pandemic
+# Filter the data for the analysis period (2019-2023)
+analysis_data <- rat_data %>%
+  filter(Year >= 2019) %>%
+  mutate(Period = case_when(
+    Created_Date < pandemic_start ~ "Pre-COVID",
+    Created_Date >= pandemic_start & Created_Date < post_pandemic_start ~ "During-COVID",
+    Created_Date >= post_pandemic_start ~ "Post-COVID"
   ))
 
-# Plot the data showing average daily sightings for each pandemic period
-ggplot(sightings_by_period_overall, aes(x = Pandemic_Period, y = Avg_Daily_Sightings, fill = Pandemic_Period)) +
+# Calculate the daily sightings for each period
+daily_sightings <- analysis_data %>%
+  count(Period, Date = as.Date(Created_Date)) %>%
+  group_by(Period) %>%
+  summarise(Avg_Daily_Sightings = mean(n), .groups = 'drop')
+
+# Plot the average daily sightings for each period
+ggplot(daily_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Period)) +
   geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("Pre-Pandemic" = "#6baed6", "During Pandemic" = "#fd8d3c", "Post-Pandemic" = "#74c476")) +
-  labs(title = 'Average Daily Rat Sightings During Different COVID-19 Pandemic Periods',
-       x = 'Pandemic Period',
-       y = 'Average Daily Sightings',
-       fill = 'Pandemic Period') +
+  scale_fill_manual(values = c("Pre-COVID" = "blue", "During-COVID" = "red", "Post-COVID" = "green")) +
+  labs(title = 'Average Daily Rat Sightings in NYC (2019-2023)',
+       subtitle = "Comparison across Pre-COVID, During-COVID, and Post-COVID Periods",
+       x = 'Period',
+       y = 'Average Daily Sightings') +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "none")
 ```
 
 ![](finalproject_graphs_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-### Interpretation of Rat Sightings During COVID-19 Pandemic Periods
+### Interpretation of the Average Daily Rat Sightings Graph
 
-The bar chart above provides a comparison of average daily rat sightings
-in New York City across three distinct periods related to the COVID-19
-pandemic: during, post, and pre-pandemic. Notably, the average daily
-sightings were highest before the pandemic, which may reflect normal
-urban activity and waste production providing ample food sources for
-rats. Sightings dipped during the pandemic, likely due to the closure of
-restaurants and reduced pedestrian traffic, which may have limited food
-availability for the rat population. Although sightings have increased
-in the post-pandemic period, they have not returned to pre-pandemic
-levels, suggesting a lasting impact of the pandemic on rat sightings or
-possibly continued changes in human behavior and waste management.
+The graph shows a comparison of average daily rat sightings in New York
+City across three periods: before the COVID-19 pandemic (Pre-COVID),
+during the pandemic (During-COVID), and after the pandemic’s prevalence
+(Post-COVID). The “During-COVID” period exhibits the highest average
+daily sightings, depicted by the red bar, which could reflect the
+disruption of human activities and waste patterns during the pandemic,
+potentially leading to increased rat visibility or population changes.
 
-### Visualizing Rat Sightings by Borough during Different Pandemic Period
+Interestingly, the “Post-COVID” period, represented by the green bar,
+shows a continuation of higher average sightings compared to the
+“Pre-COVID” period (blue bar). This suggests that the conditions leading
+to increased sightings during the pandemic may have persisted or that
+the rat population has been lastingly impacted by the pandemic’s
+effects.
 
-By Borough Plot (Specific Trends): \* Objective: To compare rat sighting
-trends across different boroughs of New York City during the COVID-19
-pandemic. \* Method: Group the data by both borough and pandemic period.
-Calculate the average daily sightings for each borough in each period.
-This approach reveals if some boroughs experienced more significant
-changes in rat sightings than others during the pandemic. \* Plot Type:
-A grouped bar chart with each group representing a borough and each bar
-within the group representing a different pandemic period. This
-visualization allows for a direct comparison of sighting trends across
-boroughs and periods.
+The data indicates that the pandemic may have had a significant and
+enduring impact on rat sighting dynamics in the city, warranting further
+investigation into urban wildlife patterns and public health
+implications in the post-pandemic era.
 
 ``` r
-# Aggregate the counts of rat sightings by borough and pandemic period, then calculate average daily sightings
-sightings_by_borough_period <- rat_data %>%
-  group_by(Borough, Pandemic_Period) %>%
-  summarise(Count = n(), .groups = 'drop') %>%
-  filter(!is.na(Pandemic_Period)) %>%
-  mutate(Avg_Daily_Sightings = Count / case_when(
-    Pandemic_Period == "Pre-Pandemic" ~ num_days_pre_pandemic,
-    Pandemic_Period == "During Pandemic" ~ num_days_during_pandemic,
-    Pandemic_Period == "Post-Pandemic" ~ num_days_post_pandemic
-  ))
+# Grouping data by borough, period, and date, then calculating the average daily sightings
+borough_period_sightings <- analysis_data %>%
+  group_by(Borough, Period, Date = as.Date(Created_Date)) %>%
+  summarise(Daily_Count = n(), .groups = 'drop') %>%
+  group_by(Borough, Period) %>%
+  summarise(Avg_Daily_Sightings = mean(Daily_Count), .groups = 'drop')
 
-# Plot the data showing average daily sightings by borough for each pandemic period
-ggplot(sightings_by_borough_period, aes(x = Borough, y = Avg_Daily_Sightings, fill = Pandemic_Period)) +
+# Define a color palette
+colors <- c("#FF6666", "#FFCC66", "#66CC66", "#66CCCC", "#6666CC", "#CC66CC", "#000000")
+
+# Assign colors to boroughs
+borough_colors <- setNames(colors, unique(borough_period_sightings$Borough))
+
+# Plot with the selected color palette
+ggplot(borough_period_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Borough)) +
   geom_bar(stat = "identity", position = "dodge") +
-  scale_fill_manual(values = c("Pre-Pandemic" = "#6baed6", "During Pandemic" = "#fd8d3c", "Post-Pandemic" = "#74c476")) +
-  labs(title = 'Average Daily Rat Sightings by Borough During Different Pandemic Periods',
-       x = 'Borough',
-       y = 'Average Daily Sightings',
-       fill = 'Pandemic Period') +
+  scale_fill_manual(values = borough_colors) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  theme(legend.position = "bottom")
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    axis.title = element_text(size = 14),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = 'Average Daily Rat Sightings by Borough (2019-2023)',
+    subtitle = "Across Pre-COVID, During-COVID, and Post-COVID Periods",
+    x = 'COVID-19 Period',
+    y = 'Average Daily Sightings',
+    fill = 'Borough'
+  )
 ```
 
 ![](finalproject_graphs_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-### Interpretation of Average Daily Rat Sightings by Borough During Pandemic Periods
+### Interpretation of the Average Daily Rat Sightings by Borough
 
-The bar chart above contrasts the average daily rat sightings across New
-York City boroughs before, during, and after the COVID-19 pandemic.
-Brooklyn stands out with the highest average sightings in the
-pre-pandemic period, indicating a substantial rat population or
-heightened reporting activity. A decline in sightings is noted during
-the pandemic across all boroughs, likely a result of the pandemic’s
-disruptions to normal urban life and its impact on rat foraging
-behaviors. The post-pandemic period sees a continuation of this reduced
-level of sightings, suggesting potential long-term effects of the
-pandemic on rat activity or the success of pest control measures
-implemented during this time. The data also includes an ‘Unspecified’
-category, denoting sightings that could not be allocated to a particular
-borough, highlighting a need for better data classification in future
-analyses.
+The bar chart compares average daily rat sightings in New York City by
+borough, across three different periods: Pre-COVID, During-COVID, and
+Post-COVID. Each borough is distinctly colored, allowing for an easy
+visual comparison.
+
+- **During-COVID**: Brooklyn shows the highest average daily rat
+  sightings among all boroughs, indicating that this borough may have
+  experienced the greatest impact from pandemic-related changes. These
+  changes could include disruptions in waste management and alterations
+  in human activity that could affect rat behavior.
+
+- **Post-COVID**: While there is a general decrease in sightings in the
+  Post-COVID period compared to During-COVID, the number of sightings
+  remains higher than in the Pre-COVID period. This suggests that some
+  of the factors affecting rat sightings during the pandemic may
+  continue to influence these numbers.
+
+- **Pre-COVID**: This period serves as a baseline, showing the average
+  daily sightings before the pandemic began. All boroughs have
+  relatively lower sightings compared to During-COVID, reflecting the
+  typical urban rat activity.
+
+This visual analysis underscores the impact of the COVID-19 pandemic on
+rat sightings in New York City, particularly in Brooklyn. It also
+prompts further investigation into the enduring effects of the pandemic
+on urban wildlife and the efficacy of control measures post-pandemic.
