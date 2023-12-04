@@ -6,11 +6,12 @@ editor_options:
 ---
 
 ```{r setup}
-
 library(tidyverse)
 library(patchwork)
 library(ggplot2)
 library(ggmap)
+library(osmdata)
+library(mgcv)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -37,7 +38,7 @@ rats_df =
   read_csv("./data/rat_sightings.csv") %>% 
   janitor::clean_names() %>% 
   select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %>% 
-  separate(created_date, into = c("created_date", "time"), sep = " ") %>% 
+  separate(created_date, into = c("created_date", "time", "am_pm"), sep = " ") %>% 
   separate(created_date, into = c("month", "day", "year"), sep = "/")
 ```
 
@@ -49,33 +50,46 @@ head(rats_df)
 ```
 
 ```{r}
+nyc_map <- get_stadiamap(bbox = c(left = -74.26, bottom = 40.5, right = -73.7, top = 40.9),zoom=10)
+
+
+ggmap(nyc_map)
+```
+
+```{r}
 
 rats_march=rats_df|>
   filter(month %in% "01", 
          year%in% "2023")|>
-  drop_na()|>
-  ggplot(aes(x=longitude,y=latitude))+
+  filter(borough != "Unspecified")
+
+ggmap(nyc_map)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_march)+
   theme_minimal() +
-  labs(title = "Population Density Map as of March 2023")+
-  geom_point(aes(color=borough),alpha=0.3)
-  
-rats_march
+  labs(title = "Population Density Map as of March 2023")
+
+
+
+
 ```
 
 ```{r}
-rats_october=rats_df|>
+rats_november=rats_df|>
   filter(month %in% "11", 
          year%in% "2023")|>
-  drop_na()|>
-  ggplot(aes(x=longitude,y=latitude))+
+  filter(borough != "Unspecified")
+
+ggmap(nyc_map)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_november)+
   theme_minimal() +
-  labs(title = "Population Density Map as of October 2023")+
-  geom_point(aes(color=borough,alpha=0.3))
-  
-rats_october
+  labs(title = "Population Density Map as of November 2023")
+
+
+
+
 ```
 
-```{r fig.height=100, fig.width=150}
+```{r fig.height=10, fig.width=12}
 rats_2023=rats_df|>
   filter(year %in% "2023")|>
   drop_na()|>
@@ -92,8 +106,23 @@ rats_2023
 
 ## Regression analyses
 
+ANOVA test on location_type:
+
 ```{r}
-rats_df
+loc_df = 
+  rats_df %>% 
+    filter(year == "2018" | year == "2019" | year == "2020" | year == "2021" | year == "2022" | year == "2023") %>% 
+    select(year, location_type) %>% 
+    group_by(year, location_type) %>% 
+    summarize(sightings = n()) %>% 
+    arrange(desc(sightings)) %>% 
+    filter(location_type == "3+ Family Apt. Building" | location_type == "1-2 Family Dwelling" | location_type == "Commercial Building" | location_type == "Construction Site")
+
+loc_df %>% 
+  ggplot(aes(x = year, y = sightings, fill = location_type)) + 
+  geom_area(aes(group = location_type, alpha = 0.8)) +
+  theme_bw() + 
+  labs(title = "Rat sightings by location type 2018-2023")
 ```
 
 
