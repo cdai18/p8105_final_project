@@ -1,6 +1,6 @@
 ---
 title: "P8105 Final Project"
-output: github_document
+output: html_document
 editor_options: 
   chunk_output_type: console
 ---
@@ -10,8 +10,9 @@ library(tidyverse)
 library(patchwork)
 library(ggplot2)
 library(ggmap)
-library(osmdata)
+library(plotly)
 library(mgcv)
+library(gganimate)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -50,11 +51,27 @@ head(rats_df)
 ```
 
 ```{r}
-nyc_map <- get_stadiamap(bbox = c(left = -74.26, bottom = 40.5, right = -73.7, top = 40.9),zoom=10)
+nyc_map <- get_stadiamap(bbox = c(left = -74.26, bottom = 40.495, right = -73.7, top = 40.92),zoom=10)
 
 
 ggmap(nyc_map)
 ```
+
+```{r}
+rats_covid=rats_df|>
+  filter(month %in% "12", 
+         year%in% "2019")|>
+  filter(borough != "Unspecified")
+
+ggmap(nyc_map)+
+geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_covid)+
+  theme_minimal() +
+  labs(title = "Population Density Map before Covid")
+
+```
+
+
+
 
 ```{r}
 
@@ -91,8 +108,8 @@ geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_novembe
 
 ```
 ## Interpretation of the Graph
->>The bar graph above illustrates the rat density as of March 2023 and November 2023 over the boroughs.
-  Between March and November 2023, the rat czar program was implemented on April 2023. These two graphs shows the comparison in density one month before the program started and the most recent density (as of November 2023). There are no significant change in density visible from the graph except it seems less dense in staten island.
+>>The bar graph above illustrates the rat density before Covid, March 2023 and November 2023 over the boroughs in New York City.
+  Between December, 2019 and March 2023, the graph shows significant difference in rat density especially in Manhattan. Between March and November 2023, the rat czar program was implemented on April 2023. These two graphs shows the comparison in density one month before the program started and the most recent density (as of November 2023). There are no significant change in density visible from the graph except it seems less dense in staten island.
 
 
 
@@ -107,10 +124,35 @@ rats_2023=rats_df|>
   geom_point(aes(color=borough,alpha=0.3))+
   facet_wrap(~ month, scales = "fixed", ncol = 6)
   
-rats_2023
+ggplotly(rats_2023)
 ```
 
 >> A graph showing the density change throughout the year of 2023.While some density change is visible through the graph, it is not significant enough to show major changes made by the rat czar program. The rat problem still seems severe through out the entire new york city. The density change maybe explained by other factors such as weather change and rats' breeding season.
+
+```{r}
+rats_allyear=rats_df|>
+  mutate(year=as.numeric(year))|>
+  na.omit()|>
+   filter(borough != "Unspecified")
+
+
+rats_allyeargraph<-ggmap(nyc_map)+
+  geom_point(aes(x=longitude,y=latitude,color=borough),alpha=0.3,data=rats_allyear)
+  labs(title = "Population Density Map")+
+  geom_point(aes(color=borough,alpha=0.3),na.rm=TRUE)
+
+
+
+map_with_animation <- rats_allyeargraph+
+  transition_time(year) +
+  ggtitle('Year: {frame_time}',
+          subtitle = 'Frame {frame} of {nframes}')
+num_years <-  max(rats_allyear$year) - min(rats_allyear$year) + 1
+animate(map_with_animation, nframes = num_years, fp=1)
+
+```
+
+>> Grapj showing rat density change in the city of New York Over the years
 
 
 ## Regression analyses
