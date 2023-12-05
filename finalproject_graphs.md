@@ -346,3 +346,46 @@ This visual analysis underscores the impact of the COVID-19 pandemic on
 rat sightings in New York City, particularly in Brooklyn. It also
 prompts further investigation into the enduring effects of the pandemic
 on urban wildlife and the efficacy of control measures post-pandemic.
+
+``` r
+rats_df = 
+  read_csv("./data/rat_sightings.csv") %>% 
+  janitor::clean_names() %>% 
+  select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %>% 
+  separate(created_date, into = c("created_date", "time", "am_pm"), sep = " ") %>% 
+  separate(created_date, into = c("month", "day", "year"), sep = "/")
+```
+
+    ## Rows: 232417 Columns: 38
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (26): Created Date, Closed Date, Agency, Agency Name, Complaint Type, De...
+    ## dbl  (5): Unique Key, X Coordinate (State Plane), Y Coordinate (State Plane)...
+    ## lgl  (7): Vehicle Type, Taxi Company Borough, Taxi Pick Up Location, Bridge ...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+loc_df = 
+  rats_df %>% 
+    filter(year == "2018" | year == "2019" | year == "2020" | year == "2021" | year == "2022" | year == "2023") %>% 
+    select(year, location_type) %>% 
+    group_by(year, location_type) %>% 
+    summarize(sightings = n()) %>% 
+    arrange(desc(sightings)) %>% 
+    filter(location_type == "3+ Family Apt. Building" | location_type == "1-2 Family Dwelling" | location_type == "Commercial Building" | location_type == "Construction Site")
+```
+
+    ## `summarise()` has grouped output by 'year'. You can override using the
+    ## `.groups` argument.
+
+``` r
+loc_df %>% 
+  ggplot(aes(x = year, y = sightings, fill = location_type)) + 
+  geom_area(aes(group = location_type, alpha = 0.8)) +
+  theme_bw() + 
+  labs(title = "Rat sightings by location type 2018-2023")
+```
+
+![](finalproject_graphs_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
