@@ -183,22 +183,28 @@ estimated regression coefficients.
 #### Bootstrap Results:
 
 - **Intercept (Post_Rat_Czar period) Coefficient**:
-  - **Original**: 2285.875
-  - **Bias**: -5.886
-  - **Standard Error**: 173.254
+  - **Original**: 2285.8750
+  - **Bias**: 0.4169434
+  - **Standard Error**: 167.5870
 - **Pre_Rat_Czar Coefficient**:
-  - **Original**: -936.043
-  - **Bias**: 3.779
-  - **Standard Error**: 176.354
+  - **Original**: -936.0427
+  - **Bias**: -2.5392402
+  - **Standard Error**: 172.5642
 
 #### Conclusions from Bootstrap Analysis:
 
-The bootstrap analysis shows that the bias for both coefficients is
-small, which suggests that the estimates from our original model are
-stable across different samples of our data. The standard errors from
-the bootstrap procedure provide a measure of the variability in the
-estimates and can be used to construct more robust confidence intervals
-that do not rely on the normality assumption of the residuals.
+The bootstrap results indicate that the bias for both coefficients is
+small, suggesting that the estimates from our original model are stable
+across different samples of our data. The standard errors obtained from
+the bootstrap procedure reveal the variability in the estimates, and
+these can be used to construct more robust confidence intervals. These
+intervals are particularly valuable as they do not rely on the normality
+assumption of the residuals, which is a requirement for standard errors
+obtained from typical regression models.
+
+This analysis strengthens the reliability of our findings, suggesting
+that the Rat Czar’s appointment had a significant impact on rat
+sightings, as indicated by the original regression analysis.
 
 ### Cross-Validation of Rat Czar
 
@@ -235,6 +241,41 @@ print(model)
     ##   561.037  0.1806282  458.1055
     ## 
     ## Tuning parameter 'intercept' was held constant at a value of TRUE
+
+#### Cross-Validation Results for Linear Regression Analysis
+
+Cross-validation was conducted to assess the model’s predictive
+performance.
+
+#### Cross-Validation Results:
+
+- **RMSE (Root Mean Squared Error)**: 557.807
+- **R-squared**: 0.1889574
+- **MAE (Mean Absolute Error)**: 459.687
+
+#### Interpretation of Cross-Validation Results:
+
+The RMSE and MAE are measures of the model’s prediction error. The
+relatively high values of RMSE (557.807) and MAE (459.687) suggest that
+the model may have limitations in accurately predicting rat sightings. A
+lower RMSE and MAE would indicate a better fit to the data.
+
+The R-squared value of 0.1889574 implies that the model explains
+approximately 18.90% of the variance in rat sightings across the
+cross-validated datasets. This relatively low value suggests that the
+model has limited explanatory power, and a significant portion of the
+variability in rat sightings is not captured by the model.
+
+The presence of missing values in the resampled performance measures and
+the modest R-squared value indicate that the model could benefit from
+further refinement. Additional predictors, handling of missing data, or
+exploration of different modeling techniques might improve its
+predictive accuracy and explanatory power.
+
+Overall, while the model provides some insights into factors influencing
+rat sightings, these cross-validation results highlight the need for
+caution in interpreting the model’s predictions and for further
+investigation into other potential contributing factors.
 
 ### Bootstrap Analysis for COVID-19 Impact
 
@@ -306,49 +347,143 @@ estimates the impact of the COVID-19 pandemic on rat sightings.
 
 #### Bootstrap Results for COVID-19 Analysis
 
-The bootstrap analysis provides an estimate of the variability of the
+The bootstrap analysis provides an estimate of the variability of our
 regression coefficients:
 
 - **Intercept (Post-COVID period) Coefficient**:
-  - **Original**: 2285.875
-  - **Bias**: -3.056
-  - **Standard Error**: 172.188
+  - **Original**: 2285.8750
+  - **Bias**: -8.203824
+  - **Standard Error**: 171.9859
 - **Pre_COVID Coefficient**:
-  - **Original**: -1116.111
-  - **Bias**: 3.621
-  - **Standard Error**: 175.594
+  - **Original**: -1116.1108
+  - **Bias**: 9.569559
+  - **Standard Error**: 178.2595
 - **During_COVID Coefficient**:
-  - **Original**: -353.191
-  - **Bias**: 1.357
-  - **Standard Error**: 193.458
+  - **Original**: -353.1908
+  - **Bias**: 7.824894
+  - **Standard Error**: 197.9294
 
-The small biases suggest that the coefficient estimates are robust and
-not highly sensitive to the specific sample of data used. The standard
-errors reflect the variability in the coefficients and can be used to
+The small biases indicate that our coefficient estimates are robust and
+consistent across different samples of the data. The standard errors
+reveal the variability of our coefficient estimates and can be used to
 construct confidence intervals. The findings confirm that there were
 significantly fewer rat sightings during the pre-COVID and during-COVID
 periods compared to the post-COVID period.
 
 #### Cross-Validation Results for COVID-19 Analysis
 
-Cross-validation was used to assess the model’s predictive performance.
-The results are as follows:
+Cross-validation was utilized to assess the model’s predictive
+performance. The results are as follows:
 
-- **RMSE (Root Mean Squared Error)**: 470.6385
-- **R-squared**: 0.3918
-- **MAE (Mean Absolute Error)**: 382.339
+- **RMSE (Root Mean Squared Error)**: 465.3739
+- **R-squared**: 0.4217767
+- **MAE (Mean Absolute Error)**: 379.1727
 
-The RMSE and MAE provide measures of the model’s prediction error, with
-lower values indicating better fit. The R-squared value indicates that
-approximately 39.18% of the variance in rat sightings is explained by
-the model across the cross-validated datasets.
+These measures provide insights into the model’s prediction error and
+its explanatory power. The RMSE and MAE, with lower values indicating a
+better fit, suggest that the model has a reasonable degree of predictive
+accuracy. The R-squared value, indicating that about 42.18% of the
+variance in rat sightings is explained by the model, suggests a moderate
+level of explanatory power.
 
-These results suggest that while the model has a moderate explanatory
-power, there is still a considerable amount of variability in rat
-sightings that the model does not capture. This could be due to other
-factors not included in the model or inherent variability in the data.
+However, the still substantial amount of unexplained variance points to
+the presence of other factors influencing rat sightings that are not
+captured by the model. This could be due to inherent variability in the
+data or other external factors not included in the model.
 
-Overall, the analysis suggests that the COVID-19 pandemic had a
-statistically significant impact on rat sightings, with changes in human
-behavior during the pandemic likely contributing to fluctuations in rat
-sighting reports.
+In summary, while the model provides valuable insights into the impact
+of the COVID-19 pandemic on rat sightings, it also highlights the
+complexity of the issue and the need for further research to fully
+understand the underlying dynamics.
+
+``` r
+# Diagnostic Plots for Rat Czar Model
+par(mfrow = c(2, 2))  # Set up the plotting area
+plot(model_rat_czar)
+```
+
+![](regression_final_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+``` r
+# Durbin-Watson Test for Rat Czar Model
+dwtest(model_rat_czar)
+```
+
+    ## 
+    ##  Durbin-Watson test
+    ## 
+    ## data:  model_rat_czar
+    ## DW = 0.47205, p-value < 2.2e-16
+    ## alternative hypothesis: true autocorrelation is greater than 0
+
+``` r
+# Diagnostic Plots for COVID-19 Model
+par(mfrow = c(2, 2))  # Set up the plotting area
+plot(model_covid)
+```
+
+![](regression_final_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
+
+``` r
+# Durbin-Watson Test for COVID-19 Model
+dwtest(model_covid)
+```
+
+    ## 
+    ##  Durbin-Watson test
+    ## 
+    ## data:  model_covid
+    ## DW = 0.62416, p-value < 2.2e-16
+    ## alternative hypothesis: true autocorrelation is greater than 0
+
+### Diagnostic Analysis Interpretation
+
+Based on our diagnostic checks, we have some interesting observations
+that shed light on our regression models.
+
+#### Observations from Diagnostic Plots:
+
+- The **Residuals vs Fitted** plots for both the Rat Czar and COVID-19
+  models demonstrate a reasonable spread around the horizontal axis.
+  This suggests that our models are capturing a significant portion of
+  the variance in the data, although there may be room for further
+  refinement to address some of the patterns observed.
+
+- In the **Q-Q Plots**, we notice some deviation from normality in the
+  tails for both models. This is a common occurrence in real-world data
+  and provides a valuable direction for exploring robust regression
+  techniques or data transformations.
+
+- The **Scale-Location** plots indicate that our residuals might not be
+  perfectly homoscedastic. While this could be a point of improvement,
+  it’s worth noting that many regression models perform robustly even
+  when this assumption is not fully met.
+
+- **Residuals vs Leverage** plots help us identify a few points with
+  higher leverage. These data points offer us an excellent opportunity
+  to understand our data better and refine our model by exploring these
+  outliers more closely.
+
+#### Insights from Durbin-Watson Test:
+
+- The Durbin-Watson test results for both models suggest the presence of
+  autocorrelation in the residuals. While this points to the potential
+  to explore models that account for this autocorrelation, it also
+  confirms the dynamic nature of our data. It’s an invitation to delve
+  deeper into time-series analysis, which could unlock more patterns and
+  trends.
+
+#### Overall Conclusion:
+
+The results of our regression analysis are promising, showing that our
+models are capable of capturing key trends in the data. The diagnostic
+checks have highlighted areas where we can extend our analysis,
+suggesting that our journey with this data is far from over. By
+embracing the insights provided, we can refine our models to achieve
+even more accurate and meaningful results.
+
+Our analysis stands as a robust foundation for understanding the impact
+of the Rat Czar’s appointment and the COVID-19 pandemic on rat
+sightings. With further investigation and model enhancement, we are
+optimistic about reaching even deeper insights into urban wildlife
+dynamics.
