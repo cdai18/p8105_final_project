@@ -1,8 +1,11 @@
 ---
-title: "regression_final"
-author: "Zihan Wu"
-date: "2023-12-04"
-output: github_document
+title: "Regression Analysis"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -18,10 +21,9 @@ library(caret)
 set.seed(2023)
 ```
 
-### Data Loading and Preprocessing
-```{r}
+```{r, include=FALSE}
 # Load the rat sightings data
-rat_data <- read_csv("data/rat_sightings.csv")
+rat_data <- read_csv("data/rat_sightings.csv", show_col_types = FALSE)
 
 # Convert 'Created Date' to datetime format and extract year and month
 rat_data$Created_Date <- as.Date(rat_data$`Created Date`, format="%m/%d/%Y %H:%M:%S")
@@ -48,38 +50,37 @@ monthly_sightings <- rat_data %>%
 merged_data <- merge(monthly_sightings, unique(rat_data[,c("Year", "Month", "Pre_Rat_Czar", "Post_Rat_Czar", "Pre_Covid", "During_Covid", "Post_Covid")]), by = c("Year", "Month"))
 ```
 
-### Regression Analysis
+# Regression Analysis
 
-#### Impact of Rat Czar Appointment
-
-```{r}
+## Impact of Rat Czar Appointment
+```{r warning=FALSE, message=FALSE}
+## Impact of Rat Czar Appointment
 model_rat_czar <- lm(Sightings ~ Pre_Rat_Czar, data = merged_data)
 summary(model_rat_czar)
 ```
 
-#### Impact of COVID-19 Pandemic
-
-```{r}
+## Impact of COVID-19 Pandemic
+```{r warning=FALSE, message=FALSE}
 model_covid <- lm(Sightings ~ Pre_Covid + During_Covid, data = merged_data)
 summary(model_covid)
 ```
-### Interpretation of Regression Analysis Results
 
-#### Impact of Rat Czar Appointment
+## Impact of Rat Czar Appointment
 
 The regression analysis indicates a significant increase in rat sightings following the appointment of the Rat Czar. The model, with an R-squared value of 0.112, explains approximately 11.2% of the variance in rat sightings. The significant negative coefficient for `Pre_Rat_Czar` (-936, p < 0.01) suggests that there were, on average, 936 fewer sightings per month before the Rat Czar's appointment compared to the period after. This finding could imply that the measures implemented by the Rat Czar were not immediately effective in reducing rat sightings, or other factors might have contributed to an increase in sightings during this period.
 
-#### Impact of COVID-19 Pandemic
+## Impact of COVID-19 Pandemic
 
 The COVID-19 pandemic also appears to have had a significant impact on rat sightings. The model's R-squared value of 0.3953 indicates that it explains about 39.53% of the variance in rat sightings. The coefficients for `Pre_Covid` and `During_Covid` are -1116.1 (p < 0.01) and -353.2 (p = 0.0531), respectively. This suggests that there were significantly fewer sightings during the pre-COVID and during-COVID periods compared to the post-COVID period, with a more pronounced decrease in the pre-COVID era. The marginal significance of the `During_Covid` coefficient suggests a slight reduction in sightings during the pandemic, though this result is less certain.
 
-#### Overall Conclusion
+## Overall Conclusion
 
 These findings underscore the complex nature of urban wildlife dynamics, particularly in response to significant events such as the appointment of a public official or a global pandemic. While the analyses provide valuable insights, they also highlight the need for further research, incorporating additional variables and data, to fully understand the factors influencing rat sightings in urban environments.
 
-### Bootstrapping of Rat Czar
+# Bootstrapping of Rat Czar
 
-```{r}
+## Bootstrap Results
+```{r warning=FALSE, message=FALSE}
 # Define the statistic function for bootstrapping with only Pre_Rat_Czar
 stat_function <- function(data, indices) {
   d <- data[indices, ] # allows bootstrapping to select sample
@@ -90,14 +91,13 @@ stat_function <- function(data, indices) {
 # Apply the bootstrapping with R = 1000 bootstrap replicates
 results <- boot(data = merged_data, statistic = stat_function, R = 1000)
 
-# Print the results
 print(results)
 ```
-### Interpretation of Bootstrap Results
+## Interpretation of Bootstrap Results
 
 The bootstrapping process was applied to the regression analysis of rat sightings with respect to the Rat Czar appointment. The bootstrap statistics provide an insight into the stability and variability of the estimated regression coefficients.
 
-#### Bootstrap Results:
+### Bootstrap Results
 
 - **Intercept (Post_Rat_Czar period) Coefficient**:
   - **Original**: 2285.875
@@ -109,14 +109,15 @@ The bootstrapping process was applied to the regression analysis of rat sighting
   - **Bias**: 3.779
   - **Standard Error**: 176.354
 
-#### Conclusions from Bootstrap Analysis:
+### Conclusions from Bootstrap Analysis
 
 The bootstrap analysis shows that the bias for both coefficients is small, which suggests that the estimates from our original model are stable across different samples of our data. The standard errors from the bootstrap procedure provide a measure of the variability in the estimates and can be used to construct more robust confidence intervals that do not rely on the normality assumption of the residuals.
 
-### Cross-Validation of Rat Czar
+# Cross-Validation of Rat Czar
 
-```{r}
-# Define control using k-fold cross-validation
+## Define control using k-fold cross-validation
+```{r warning=FALSE, message=FALSE}
+
 train_control <- trainControl(method = "cv", number = 10)
 
 # Train the model
@@ -128,43 +129,43 @@ model <- train(Sightings ~ Pre_Rat_Czar + Post_Rat_Czar,
 # Summarize the results
 print(model)
 ```
-### Bootstrap Analysis for COVID-19 Impact
 
-```{r}
-# Define the statistic function for bootstrapping
+## Bootstrap Analysis for COVID-19 Impact
+```{r warning=FALSE, message=FALSE}
+## Define the statistic function for bootstrapping
 stat_function_covid <- function(data, indices) {
   d <- data[indices, ] # allows bootstrapping to select sample
   fit <- lm(Sightings ~ Pre_Covid + During_Covid, data = d)
   return(coef(fit))
 }
 
-# Apply the bootstrapping with R = 1000 bootstrap replicates
+## Apply the bootstrapping with R = 1000 bootstrap replicates
 bootstrap_results_covid <- boot(data = merged_data, statistic = stat_function_covid, R = 1000)
 
-# Print the results
+## Print the results
 print(bootstrap_results_covid)
 ```
-### Cross-Validation for COVID-19 Impact
 
-```{r}
-# Define the control using 10-fold cross-validation
+## Cross-Validation for COVID-19 Impact
+```{r warning=FALSE, message=FALSE}
+## Define the control using 10-fold cross-validation
 train_control <- trainControl(method = "cv", number = 10)
 
-# Train the model
+## Train the model
 model_cv_covid <- train(Sightings ~ Pre_Covid + During_Covid,
                         data = merged_data,
                         trControl = train_control,
                         method = "lm")
 
-# Summarize the results
+## Summarize the results
 print(model_cv_covid)
 ```
 
-### Interpretation of Bootstrap and Cross-Validation Results for COVID-19 Impact Analysis
+## Interpretation of Bootstrap and Cross-Validation Results for COVID-19 Impact Analysis
 
 We performed a bootstrap analysis and cross-validation to assess the stability and predictive performance of our regression model, which estimates the impact of the COVID-19 pandemic on rat sightings.
 
-#### Bootstrap Results for COVID-19 Analysis
+### Bootstrap Results for COVID-19 Analysis
 
 The bootstrap analysis provides an estimate of the variability of the regression coefficients:
 
@@ -185,7 +186,7 @@ The bootstrap analysis provides an estimate of the variability of the regression
 
 The small biases suggest that the coefficient estimates are robust and not highly sensitive to the specific sample of data used. The standard errors reflect the variability in the coefficients and can be used to construct confidence intervals. The findings confirm that there were significantly fewer rat sightings during the pre-COVID and during-COVID periods compared to the post-COVID period.
 
-#### Cross-Validation Results for COVID-19 Analysis
+### Cross-Validation Results for COVID-19 Analysis
 
 Cross-validation was used to assess the model's predictive performance. The results are as follows:
 

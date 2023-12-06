@@ -1,8 +1,13 @@
 ---
-title: "graphs"
-author: "Zihan Wu"
-date: "2023-12-01"
-output: github_document
+title: "Graphs and visualizations on the data"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+    code_folding: hide
+    warning: FALSE
+    message: FALSE
 ---
 
 ## Monthly Rat Sightings Before and After Rat Czar Office
@@ -23,7 +28,7 @@ library(tidyverse)
 ### Data Loading
 ```{r}
 # Load the rat sightings data
-rat_data <- read_csv("data/rat_sightings.csv")
+rat_data <- read_csv("data/rat_sightings.csv", show_col_types = FALSE)
 
 # Converting 'Created Date' to datetime format
 rat_data$Created_Date <- mdy_hms(rat_data$`Created Date`)
@@ -43,9 +48,10 @@ monthly_counts_after <- data_after_one_year_before_rat_czar %>%
   group_by(Month) %>%
   summarise(Count = n())
 ```
+The primary goal of our is to process a dataset concerning rat observations, applying targeted transformations and filters. This process aims to analyze the variations in rat observation numbers during the year before and after the appointment of the 'Rat Czar'. After meticulous filtering and processing, the dataset, now labeled 'rat_data', comprises 232,417 rows and 38 columns. This extensive dataset not only demonstrates its scale and complexity but also ensures a comprehensive analysis, given the substantial amount of data retained even after applying specific time-range filters.
 
 ### Data Visualization
-```{r}
+```{r warning=FALSE, message=FALSE}
 # Plotting with ggplot2
 rat_czar_start_month <- as.Date("2023-04-01") # The first day of the month when Rat Czar started
 
@@ -53,7 +59,7 @@ ggplot(monthly_counts_after, aes(x = Month, y = Count)) +
   geom_col(fill = "skyblue") +
   geom_vline(xintercept = as.numeric(rat_czar_start_month), linetype="dashed", color = "red", size=1.5) +
   geom_text(aes(x = rat_czar_start_month, y = max(monthly_counts_after$Count), label = "Rat Czar Start"), 
-            color = "red", vjust = -1, angle = 90, size = 4) +
+            color = "red", vjust = -1, angle = 90, linewidth = 4) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b-%Y") +
   labs(title = 'Monthly Rat Sightings from April 2022 to November 2023',
        x = 'Month',
@@ -249,9 +255,9 @@ The bar chart compares average daily rat sightings in New York City by borough, 
 
 This visual analysis underscores the impact of the COVID-19 pandemic on rat sightings in New York City, particularly in Brooklyn. It also prompts further investigation into the enduring effects of the pandemic on urban wildlife and the efficacy of control measures post-pandemic.
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 rats_df = 
-  read_csv("./data/rat_sightings.csv") %>% 
+  read_csv("./data/rat_sightings.csv", show_col_types = FALSE) %>% 
   janitor::clean_names() %>% 
   select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %>% 
   separate(created_date, into = c("created_date", "time", "am_pm"), sep = " ") %>% 

@@ -1,6 +1,11 @@
 ---
 title: "P8105 Final Project"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+    code_folding: hide
 editor_options: 
   chunk_output_type: console
 ---
@@ -36,7 +41,7 @@ Preliminary data import and cleaning:
 
 ```{r}
 rats_df = 
-  read_csv("./data/rat_sightings.csv") %>% 
+  read_csv("./data/rat_sightings.csv", ) %>% 
   janitor::clean_names() %>% 
   select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %>% 
   separate(created_date, into = c("created_date", "time", "am_pm"), sep = " ") %>% 
@@ -51,6 +56,8 @@ head(rats_df)
 ```
 
 ```{r}
+register_stadiamaps(key = "7fe0e792-45a1-4318-8bea-cd0eb5c44b18")
+
 nyc_map <- get_stadiamap(bbox = c(left = -74.26, bottom = 40.495, right = -73.7, top = 40.92),zoom=10)
 
 
