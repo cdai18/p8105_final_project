@@ -159,7 +159,7 @@ animate(map_with_animation, nframes = num_years, fp=1)
 
 ```
 
->> Grapj showing rat density change in the city of New York Over the years
+>> Graph showing rat density change in the city of New York Over the years
 
 
 ## Regression analyses
