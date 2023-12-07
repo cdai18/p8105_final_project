@@ -5,12 +5,14 @@ navbar:
     - text: "Home"
       href: index.html
   right:
+    - text: "Map"
+      href: final_project.html
     - text: "Graphs"
       href: finalproject_graphs.html
     - text: "Regression"
       href: regression_final.html
+    - text: "Our Report"
+      href: final-project-report.html
 output:
   html_document:
-    theme:
-      bootswatch: flatly 
-      custom_css: navbar.css 
+    theme: flatly

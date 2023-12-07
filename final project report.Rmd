@@ -2,7 +2,6 @@
 title: "Report"
 output: 
   html_document:
-    theme: cerulean
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
