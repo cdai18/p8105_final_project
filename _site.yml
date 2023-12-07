@@ -1,0 +1,16 @@
+name: "my-website"
+navbar:
+  title: "P8105 Final Project"
+  left:
+    - text: "Home"
+      href: index.html
+  right:
+    - text: "Graphs"
+      href: finalproject_graphs.html
+    - text: "Regression"
+      href: regression_final.html
+output:
+  html_document:
+    theme:
+      bootswatch: flatly 
+      custom_css: navbar.css 
