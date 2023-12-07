@@ -47,7 +47,6 @@ rats_df =
 ```
 
 
-
 # Making the density map
 
 ## New York City Map
@@ -61,6 +60,7 @@ nyc_map <- get_stadiamap(bbox = c(left = -74.26, bottom = 40.495, right = -73.7,
 
 ggmap(nyc_map)
 ```
+![](5 ave.jpg)
 
 ## Population Density Map before Covid
 ```{r warning=FALSE, message=FALSE}
