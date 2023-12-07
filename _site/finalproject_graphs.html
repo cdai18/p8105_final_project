@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Graphs and visualizations on the data</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">P8105 Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="final_project.html">Map</a>
+</li>
+<li>
+  <a href="finalproject_graphs.html">Graphs</a>
+</li>
+<li>
+  <a href="regression_final.html">Regression</a>
+</li>
+<li>
+  <a href="final-project-report.html">Our Report</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Graphs and visualizations on the data</h1>
+
+</div>
+
+
+<div id="monthly-rat-sightings-before-and-after-rat-czar-office"
+class="section level2">
+<h2>Monthly Rat Sightings Before and After Rat Czar Office</h2>
+<div id="data-loading" class="section level3">
+<h3>Data Loading</h3>
+<pre class="r"><code># Load the rat sightings data
+rat_data &lt;- read_csv(&quot;data/rat_sightings.csv&quot;, show_col_types = FALSE)
+
+# Converting &#39;Created Date&#39; to datetime format
+rat_data$Created_Date &lt;- mdy_hms(rat_data$`Created Date`)
+
+# Assuming the Rat Czar started office on April 12, 2023
+rat_czar_start_date &lt;- as.Date(&quot;2023-04-12&quot;)
+
+# Filtering data for the period from one year before the Rat Czar started to the latest date in the dataset
+one_year_before &lt;- rat_czar_start_date - years(1)
+latest_date &lt;- max(rat_data$Created_Date)
+
+data_after_one_year_before_rat_czar &lt;- filter(rat_data, Created_Date &gt;= one_year_before &amp; Created_Date &lt;= latest_date)
+
+# Grouping by month and converting to Date format
+data_after_one_year_before_rat_czar$Month &lt;- as.Date(floor_date(data_after_one_year_before_rat_czar$Created_Date, &quot;month&quot;))
+monthly_counts_after &lt;- data_after_one_year_before_rat_czar %&gt;%
+  group_by(Month) %&gt;%
+  summarise(Count = n())</code></pre>
+<p>The primary goal of our is to process a dataset concerning rat
+observations, applying targeted transformations and filters. This
+process aims to analyze the variations in rat observation numbers during
+the year before and after the appointment of the ‘Rat Czar’. After
+meticulous filtering and processing, the dataset, now labeled
+‘rat_data’, comprises 232,417 rows and 38 columns. This extensive
+dataset not only demonstrates its scale and complexity but also ensures
+a comprehensive analysis, given the substantial amount of data retained
+even after applying specific time-range filters.</p>
+</div>
+<div id="data-visualization" class="section level3">
+<h3>Data Visualization</h3>
+<pre class="r"><code># Plotting with ggplot2
+rat_czar_start_month &lt;- as.Date(&quot;2023-04-01&quot;) # The first day of the month when Rat Czar started
+
+ggplot(monthly_counts_after, aes(x = Month, y = Count)) +
+  geom_col(fill = &quot;skyblue&quot;) +
+  geom_vline(xintercept = as.numeric(rat_czar_start_month), linetype=&quot;dashed&quot;, color = &quot;red&quot;, size=1.5) +
+  geom_text(aes(x = rat_czar_start_month, y = max(monthly_counts_after$Count), label = &quot;Rat Czar Start&quot;), 
+            color = &quot;red&quot;, vjust = -1, angle = 90, linewidth = 4) +
+  scale_x_date(date_breaks = &quot;1 month&quot;, date_labels = &quot;%b-%Y&quot;) +
+  labs(title = &#39;Monthly Rat Sightings from April 2022 to November 2023&#39;,
+       x = &#39;Month&#39;,
+       y = &#39;Number of Sightings&#39;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
+<p><img src="finalproject_graphs_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-graph" class="section level3">
+<h3>Interpretation of the Graph</h3>
+<p>The bar graph above illustrates the number of reported rat sightings
+from April 2022 to November 2023. The red dashed line marks the
+beginning of the Rat Czar’s term in April 2023.</p>
+<p>A cursory glance at the graph suggests that there is variability in
+the number of sightings reported each month, which may be influenced by
+a variety of factors including seasonal changes and the urban
+environment. While there is no immediate drastic reduction in sightings
+following the appointment of the Rat Czar, this could imply that
+strategies employed require time to take effect, or that their impact is
+not instantly observable from this data alone.</p>
+</div>
+</div>
+<div
+id="rat-sightings-comparison-by-borough-before-and-after-rat-czar-office"
+class="section level2">
+<h2>Rat Sightings Comparison by Borough Before and After Rat Czar
+Office</h2>
+<div
+id="rat-sightings-comparison-by-borough-before-and-after-rat-czar-office-1"
+class="section level3">
+<h3>Rat Sightings Comparison by Borough Before and After Rat Czar
+Office</h3>
+<pre class="r"><code># Assuming &#39;rat_data&#39; has already been loaded and &#39;Created_Date&#39; has been processed
+
+# Grouping data by borough and month
+sightings_by_borough_month &lt;- rat_data %&gt;%
+  filter(Created_Date &gt;= one_year_before &amp; Created_Date &lt;= latest_date) %&gt;%
+  mutate(Month = as.Date(floor_date(Created_Date, &quot;month&quot;))) %&gt;%
+  group_by(Borough, Month) %&gt;%
+  summarise(Count = n(), .groups = &#39;drop&#39;)
+
+
+# Define a custom color palette without red for the boroughs
+borough_colors &lt;- c(&quot;BRONX&quot; = &quot;#33a02c&quot;, &quot;BROOKLYN&quot; = &quot;#1f78b4&quot;, &quot;MANHATTAN&quot; = &quot;#b2df8a&quot;,
+                    &quot;QUEENS&quot; = &quot;#a6cee3&quot;, &quot;STATEN ISLAND&quot; = &quot;#fdbf6f&quot;, &quot;Unspecified&quot; = &quot;#cab2d6&quot;)
+
+# Plotting with ggplot2 using the custom color palette
+ggplot(sightings_by_borough_month, aes(x = Month, y = Count, fill = Borough)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  scale_fill_manual(values = borough_colors) + # Use the custom color palette
+  geom_vline(xintercept = as.numeric(as.Date(&quot;2023-04-01&quot;)), linetype=&quot;dashed&quot;, color = &quot;#d62728&quot;, size=1.5) + # Red line for Rat Czar start date
+  scale_x_date(date_breaks = &quot;1 month&quot;, date_labels = &quot;%b-%Y&quot;) +
+  labs(title = &#39;Monthly Rat Sightings by Borough from April 2022 to November 2023&#39;,
+       x = &#39;Month&#39;,
+       y = &#39;Number of Sightings&#39;,
+       fill = &#39;Borough&#39;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="finalproject_graphs_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-graph-1" class="section level3">
+<h3>Interpretation of the Graph</h3>
+<p>The graph displays monthly rat sightings by borough in New York City
+from April 2022 to November 2023. Each borough is represented by a
+different color, with an additional category for unspecified locations.
+A red dashed line denotes April 2023, when the Rat Czar commenced their
+role.</p>
+<p>Interpreting the graph, we can observe that sightings fluctuate
+monthly, with peaks and troughs that may be influenced by various
+factors, such as changes in weather or waste management practices. After
+the red line, indicating the Rat Czar’s start date, there is no
+immediate and drastic change in the trend of sightings for any borough.
+This could suggest that any measures implemented by the Rat Czar may
+take time to show significant effects.</p>
+<p>Additionally, it’s noticeable that certain boroughs, such as Brooklyn
+and Manhattan, consistently report higher numbers of sightings. The
+graph also shows that some months exhibit a higher number of sightings
+across all boroughs, which might indicate seasonal patterns in rat
+activity or reporting.</p>
+<p>Lastly, the unspecified category indicates reports that did not have
+a borough listed. The presence of this category suggests that data
+collection or reporting may have inconsistencies, which could affect the
+analysis.</p>
+<p>Overall, while the Rat Czar’s impact isn’t immediately discernible
+from the graph, ongoing analysis with more data over time will be
+essential to understand the full effect of the initiatives taken to
+control the rat population.</p>
+</div>
+</div>
+<div id="rat-sightings-and-covid-19" class="section level2">
+<h2>Rat Sightings and Covid-19</h2>
+<p>The COVID-19 pandemic brought unprecedented challenges to urban
+management and public health. In New York City, changes in human
+activity during the pandemic may have influenced rat behavior and
+sightings. This section analyzes the rat sightings data to observe
+potential shifts in rat populations across the city’s boroughs during
+the pre-pandemic, pandemic, and post-pandemic periods.</p>
+<div id="general-analysis" class="section level3">
+<h3>General Analysis</h3>
+<pre class="r"><code>rat_data$Year &lt;- year(rat_data$Created_Date)
+# Aggregate the number of sightings per year
+yearly_sightings &lt;- rat_data %&gt;%
+  group_by(Year) %&gt;%
+  summarise(Count = n(), .groups = &#39;drop&#39;)
+
+# The data must be ungrouped before plotting in some ggplot2 versions
+yearly_sightings &lt;- ungroup(yearly_sightings)
+
+# Plotting the number of rat sightings per year with enhancements
+max_count &lt;- max(yearly_sightings$Count)
+ggplot(yearly_sightings, aes(x = Year, y = Count)) +
+  geom_col(fill = &quot;#69b3a2&quot;) +
+  geom_vline(xintercept = 2020, linetype=&quot;dashed&quot;, color = &quot;#e36bae&quot;, size=1.5) +
+  geom_text(aes(x = 2020, y = max_count - 5000, label = &quot;COVID&quot;),  # Adjust position here
+            color = &quot;#e36bae&quot;, vjust = 1, angle = 90, size = 4, fontface = &quot;bold&quot;) +
+  scale_x_continuous(breaks = yearly_sightings$Year, labels = scales::label_wrap(5)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = &#39;Yearly Rat Sightings in New York City&#39;,
+       subtitle = &quot;An increase in sightings is observed around the start of COVID.&quot;,
+       x = &#39;Year&#39;,
+       y = &#39;Number of Sightings&#39;,
+       caption = &quot;Data source: NYC Open Data&quot;) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5),
+    plot.subtitle = element_text(size = 14),
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    axis.title = element_text(size = 16),
+    legend.position = &quot;none&quot;,
+    plot.caption = element_text(hjust = 0, vjust = 1)
+  )</code></pre>
+<p><img src="finalproject_graphs_files/figure-html/covid-preprocessing-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-yearly-rat-sightings-graph"
+class="section level3">
+<h3>Interpretation of the Yearly Rat Sightings Graph</h3>
+<p>The bar chart illustrates the trend in yearly rat sightings reported
+in New York City from 2010 through 2023. There is a notable increase in
+sightings in the year 2020, marked by a dashed pink line, which
+coincides with the onset of the COVID-19 pandemic. This rise suggests a
+potential impact of the pandemic on rat sighting occurrences, possibly
+due to changes in human activity patterns and urban waste dynamics
+during the pandemic.</p>
+<p>Subsequent years, 2021 and 2022, maintain a higher level of sightings
+compared to the pre-pandemic years, indicating that the factors
+contributing to increased sightings may have persisted beyond the
+initial pandemic phase. The data for 2023 shows a continued prevalence
+of rat sightings, suggesting that the conditions favorable to rat
+visibility or population growth are still present.</p>
+<p>However, without further analysis, we cannot conclusively attribute
+changes in rat sighting trends solely to the pandemic. Other
+environmental, social, or data collection factors might also play a
+role. Ongoing monitoring and analysis would be necessary to understand
+the full range of influences on rat sightings in New York City.</p>
+</div>
+<div id="daily-rat-sightings-comparison" class="section level3">
+<h3>Daily Rat Sightings Comparison</h3>
+<pre class="r"><code># Define the pandemic period and the post-pandemic start
+pandemic_start &lt;- as.Date(&quot;2020-03-11&quot;)
+post_pandemic_start &lt;- as.Date(&quot;2023-05-05&quot;)
+
+# Filter the data for the analysis period (2019-2023)
+analysis_data &lt;- rat_data %&gt;%
+  filter(Year &gt;= 2019) %&gt;%
+  mutate(Period = case_when(
+    Created_Date &lt; pandemic_start ~ &quot;Pre-COVID&quot;,
+    Created_Date &gt;= pandemic_start &amp; Created_Date &lt; post_pandemic_start ~ &quot;During-COVID&quot;,
+    Created_Date &gt;= post_pandemic_start ~ &quot;Post-COVID&quot;
+  ))
+
+# Calculate the daily sightings for each period
+daily_sightings &lt;- analysis_data %&gt;%
+  count(Period, Date = as.Date(Created_Date)) %&gt;%
+  group_by(Period) %&gt;%
+  summarise(Avg_Daily_Sightings = mean(n), .groups = &#39;drop&#39;)
+
+# Plot the average daily sightings for each period
+ggplot(daily_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Period)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  scale_fill_manual(values = c(&quot;Pre-COVID&quot; = &quot;blue&quot;, &quot;During-COVID&quot; = &quot;red&quot;, &quot;Post-COVID&quot; = &quot;green&quot;)) +
+  labs(title = &#39;Average Daily Rat Sightings in NYC (2019-2023)&#39;,
+       subtitle = &quot;Comparison across Pre-COVID, During-COVID, and Post-COVID Periods&quot;,
+       x = &#39;Period&#39;,
+       y = &#39;Average Daily Sightings&#39;) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="finalproject_graphs_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-average-daily-rat-sightings-graph"
+class="section level3">
+<h3>Interpretation of the Average Daily Rat Sightings Graph</h3>
+<p>The graph shows a comparison of average daily rat sightings in New
+York City across three periods: before the COVID-19 pandemic
+(Pre-COVID), during the pandemic (During-COVID), and after the
+pandemic’s prevalence (Post-COVID). The “During-COVID” period exhibits
+the highest average daily sightings, depicted by the red bar, which
+could reflect the disruption of human activities and waste patterns
+during the pandemic, potentially leading to increased rat visibility or
+population changes.</p>
+<p>Interestingly, the “Post-COVID” period, represented by the green bar,
+shows a continuation of higher average sightings compared to the
+“Pre-COVID” period (blue bar). This suggests that the conditions leading
+to increased sightings during the pandemic may have persisted or that
+the rat population has been lastingly impacted by the pandemic’s
+effects.</p>
+<p>The data indicates that the pandemic may have had a significant and
+enduring impact on rat sighting dynamics in the city, warranting further
+investigation into urban wildlife patterns and public health
+implications in the post-pandemic era.</p>
+<pre class="r"><code># Grouping data by borough, period, and date, then calculating the average daily sightings
+borough_period_sightings &lt;- analysis_data %&gt;%
+  group_by(Borough, Period, Date = as.Date(Created_Date)) %&gt;%
+  summarise(Daily_Count = n(), .groups = &#39;drop&#39;) %&gt;%
+  group_by(Borough, Period) %&gt;%
+  summarise(Avg_Daily_Sightings = mean(Daily_Count), .groups = &#39;drop&#39;)
+
+# Define a color palette
+colors &lt;- c(&quot;#FF6666&quot;, &quot;#FFCC66&quot;, &quot;#66CC66&quot;, &quot;#66CCCC&quot;, &quot;#6666CC&quot;, &quot;#CC66CC&quot;, &quot;#000000&quot;)
+
+# Assign colors to boroughs
+borough_colors &lt;- setNames(colors, unique(borough_period_sightings$Borough))
+
+# Plot with the selected color palette
+ggplot(borough_period_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Borough)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  scale_fill_manual(values = borough_colors) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    axis.title = element_text(size = 14),
+    legend.position = &quot;bottom&quot;
+  ) +
+  labs(
+    title = &#39;Average Daily Rat Sightings by Borough (2019-2023)&#39;,
+    subtitle = &quot;Across Pre-COVID, During-COVID, and Post-COVID Periods&quot;,
+    x = &#39;COVID-19 Period&#39;,
+    y = &#39;Average Daily Sightings&#39;,
+    fill = &#39;Borough&#39;
+  )</code></pre>
+<p><img src="finalproject_graphs_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-average-daily-rat-sightings-by-borough"
+class="section level3">
+<h3>Interpretation of the Average Daily Rat Sightings by Borough</h3>
+<p>The bar chart compares average daily rat sightings in New York City
+by borough, across three different periods: Pre-COVID, During-COVID, and
+Post-COVID. Each borough is distinctly colored, allowing for an easy
+visual comparison.</p>
+<ul>
+<li><p><strong>During-COVID</strong>: Brooklyn shows the highest average
+daily rat sightings among all boroughs, indicating that this borough may
+have experienced the greatest impact from pandemic-related changes.
+These changes could include disruptions in waste management and
+alterations in human activity that could affect rat behavior.</p></li>
+<li><p><strong>Post-COVID</strong>: While there is a general decrease in
+sightings in the Post-COVID period compared to During-COVID, the number
+of sightings remains higher than in the Pre-COVID period. This suggests
+that some of the factors affecting rat sightings during the pandemic may
+continue to influence these numbers.</p></li>
+<li><p><strong>Pre-COVID</strong>: This period serves as a baseline,
+showing the average daily sightings before the pandemic began. All
+boroughs have relatively lower sightings compared to During-COVID,
+reflecting the typical urban rat activity.</p></li>
+</ul>
+<p>This visual analysis underscores the impact of the COVID-19 pandemic
+on rat sightings in New York City, particularly in Brooklyn. It also
+prompts further investigation into the enduring effects of the pandemic
+on urban wildlife and the efficacy of control measures
+post-pandemic.</p>
+<pre class="r"><code>rats_df = 
+  read_csv(&quot;./data/rat_sightings.csv&quot;, show_col_types = FALSE) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %&gt;% 
+  separate(created_date, into = c(&quot;created_date&quot;, &quot;time&quot;, &quot;am_pm&quot;), sep = &quot; &quot;) %&gt;% 
+  separate(created_date, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), sep = &quot;/&quot;)
+
+loc_df = 
+  rats_df %&gt;% 
+    filter(year == &quot;2018&quot; | year == &quot;2019&quot; | year == &quot;2020&quot; | year == &quot;2021&quot; | year == &quot;2022&quot; | year == &quot;2023&quot;) %&gt;% 
+    select(year, location_type) %&gt;% 
+    group_by(year, location_type) %&gt;% 
+    summarize(sightings = n()) %&gt;% 
+    arrange(desc(sightings)) %&gt;% 
+    filter(location_type == &quot;3+ Family Apt. Building&quot; | location_type == &quot;1-2 Family Dwelling&quot; | location_type == &quot;Commercial Building&quot; | location_type == &quot;Construction Site&quot;)
+
+loc_df %&gt;% 
+  ggplot(aes(x = year, y = sightings, fill = location_type)) + 
+  geom_area(aes(group = location_type, alpha = 0.8)) +
+  theme_bw() + 
+  labs(title = &quot;Rat sightings by location type 2018-2023&quot;)</code></pre>
+<p><img src="finalproject_graphs_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
