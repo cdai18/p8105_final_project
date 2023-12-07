@@ -7,6 +7,7 @@ output:
     theme: cerulean
 ---
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 <style>
 body {
   font-size: 16px;
@@ -20,8 +21,6 @@ p::first-letter {
   color: #add8e6;
 }
 </style>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 # Project title
 Do the Rats Run This City?: An Investigation into Prevalence of Rat Sightings in New York City
@@ -51,10 +50,10 @@ Thank you for visiting our webpage! We are committed to offering valuable conten
 Click this link for direct access: [Our GitHub page.](https://github.com/cdai18/p8105_final_project.git)
 
 
-# Our team:
+# Our Team
 
-- Brady Pham,[](),[]()
-- Christina Dai, [](),[]()
-- Congrui Zhang, 
-- Qiran Chen, [](),[]()
-- Zihan Wu, [](),[]()
+- Brady Pham,[<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/BigBadApp1e), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:bp2678@cumc.columbia.edu)
+- Christina Dai, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/BigBadApp1e), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:cd3347@cumc.columbia.edu)
+- Congrui Zhang, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/BigBadApp1e), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:cz2750@cumc.columbia.edu)
+- Qiran Chen, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/qc2336), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:qc2336@cumc.columbia.edu)
+- Zihan Wu, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/zw2974), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:zw2974@cumc.columbia.edu)
