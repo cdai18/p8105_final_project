@@ -1,10 +1,12 @@
 ---
-title: "Report"
+title: "Discover New York City's Unseen Inhabitants: Exclusive Report on Rat Sightings"
 output: 
   html_document:
+    theme: flatly
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 <style>
 body {
   font-size: 16px;
@@ -13,9 +15,9 @@ body {
 }
 
 p::first-letter {
-  font-size: 200%;
+  font-size: 150%;
   font-weight: bold;
-  color: blue;
+  color: #add8e6;
 }
 </style>
 

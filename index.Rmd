@@ -35,20 +35,38 @@ New York City is known for its rampant rat problem. Tourists and resident alike 
 # Anticipated data sources
 This [Rat Sighting's](https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe ) data includes all the rat sightings reported to 311 from 2010 to now (updated daily). Each incident includes the borough, location type, the longitude and latitude, and more.
 
-# Map
+# Uncover the Hidden Dynamics of Urban Wildlife: A Visual Exploration of Rat Populations
+Dive into an intriguing visual narrative that uncovers the shifting landscapes of urban wildlife, particularly focusing on rat populations. Our meticulously designed [Maps](final_project.html) offer a unique perspective on how these adaptable creatures have responded to global changes, especially during and after the COVID-19 pandemic. 
+
 ![](nyc_map.png)
-[Map](final_project.html)
+These maps provide fascinating insights into the resilience and adaptability of urban wildlife in the face of global challenges and changing human landscapes.
 
-# Graphs and visualizations on the data
-[Graphs and visualizations on the data](finalproject_graphs.html)
+Embark on this captivating journey by visiting our specially curated [subpage](final_project.html). Witness firsthand the impact of environmental and societal changes on urban animal populations. Your exploration into the intriguing world of urban ecology starts here.
 
-# Regression
+# Explore the Intriguing World of Urban Wildlife Through Data: Rat Sightings in Focus
+In our dedicated ["Graphs and visualizations on the data"](finalproject_graphs.html) section, delve into an enlightening series of graphs and visualizations that bring to light the fascinating dynamics of rat populations in urban settings. Our data-driven approach provides a detailed look at how rat sightings have changed over time, especially with the introduction of the Rat Czar office.
 
-[Regression Analysis](regression_final.html)
+Join us in this [data-driven exploration](finalproject_graphs.html) and gain a new perspective on the often unseen but vital aspects of urban ecosystems. Discover the story behind the numbers and understand the complexities of managing urban wildlife.
 
-# Our Report
+# Delve into the Depths of Data: Unraveling the Impacts of Rat Czar and COVID-19 through Regression Analysis
 
-[Report](final-project-report.html)
+In our comprehensive [Regression Analysis](regression_final.html) section, we take a deep dive into the statistical exploration of urban rat populations, focusing on two significant events: the appointment of the Rat Czar and the COVID-19 pandemic. Our analysis provides a robust, data-driven understanding of their effects.
+
+This section is aimed at providing a nuanced understanding of how strategic decisions and global events influence urban wildlife, particularly rat populations. Our rigorous statistical approach ensures that the insights drawn are both accurate and reliable.
+
+Embark on this [analytical](regression_final.html) journey with us to understand the complexities of urban ecology and wildlife management in the face of changing global and local landscapes.
+
+# Discover New York City's Unseen Inhabitants: Exclusive Report on Rat Sightings
+
+New York City, a bustling metropolis known for its iconic landmarks, is also home to an often overlooked but significant population – urban rats. In our latest [Report](final-project-report.html), now featured on a dedicated subpage, we delve into the world of these resilient city dwellers, offering a unique perspective on their presence across the five boroughs.
+
+Our [Report](final-project-report.html), based on extensive data from NYC Open Data, explores where most rat sightings occur and evaluates the impact of major events and initiatives like the COVID-19 pandemic and the Rat Czar appointment. From Times Square to the Statue of Liberty, rats have become an unofficial mascot of the city, and our study aims to understand their patterns and significance.
+
+![](report.png)
+
+Whether you're a New Yorker, a visitor, or just curious about urban wildlife, our report offers fascinating insights. It's not just about understanding where these creatures are most prevalent; it's about comprehending their impact on our daily lives and urban infrastructure.
+
+Embark on this revealing journey by visiting our [subpage](final-project-report.html). See New York City through a different lens and grasp the complexities of coexisting with our urban wildlife.
 
 # Our GitHub
 Thank you for visiting our webpage! We are committed to offering valuable content and resources to enhance your experience. Should you wish to explore our projects further, we invite you to visit our GitHub page. On our GitHub page, you'll discover the latest updates on our projects, access to source codes, and various opportunities to engage with our vibrant community.

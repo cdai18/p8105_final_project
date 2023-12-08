@@ -1,5 +1,5 @@
 ---
-title: "Regression Analysis"
+title: "Delve into the Depths of Data: Unraveling the Impacts of Rat Czar and COVID-19 through Regression Analysis"
 output: 
   html_document:
     toc: true

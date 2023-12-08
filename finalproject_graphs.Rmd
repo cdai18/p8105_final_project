@@ -1,5 +1,5 @@
 ---
-title: "Graphs and visualizations on the data"
+title: "Explore the Intriguing World of Urban Wildlife Through Data: Rat Sightings in Focus"
 output: 
   html_document:
     toc: true
@@ -74,6 +74,7 @@ A cursory glance at the graph suggests that there is variability in the number o
 
 
 ## Rat Sightings Comparison by Borough Before and After Rat Czar Office
+
 ### Rat Sightings Comparison by Borough Before and After Rat Czar Office
 ```{r}
 

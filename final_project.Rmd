@@ -1,5 +1,5 @@
 ---
-title: "P8105 Final Project"
+title: "Uncover the Hidden Dynamics of Urban Wildlife: A Visual Exploration of Rat Populations"
 output: 
   html_document:
     toc: true
