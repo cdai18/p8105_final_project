@@ -25,7 +25,6 @@ p::first-letter {
 
 
 
-# Project title
 Do the Rats Run This City?: An Investigation into Prevalence of Rat Sightings in New York City
 
 <img src="rat in the nyc.jpg" width="600" height="500">
@@ -37,6 +36,7 @@ New York City is known for its rampant rat problem. Tourists and resident alike 
 This [Rat Sighting's](https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe ) data includes all the rat sightings reported to 311 from 2010 to now (updated daily). Each incident includes the borough, location type, the longitude and latitude, and more.
 
 # Map
+![](nyc_map.png)
 [Map](final_project.html)
 
 # Graphs and visualizations on the data
