@@ -57,8 +57,8 @@ Click this link for direct access: [Our GitHub page.](https://github.com/cdai18/
 
 # Our Team
 
-- Brady Pham,[<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/BigBadApp1e), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:bp2678@cumc.columbia.edu)
-- Christina Dai, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/BigBadApp1e), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:cd3347@cumc.columbia.edu)
+- Brady Pham,[<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://https://github.com/bradford-pham), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:bp2678@cumc.columbia.edu)
+- Christina Dai, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://https://github.com/cdai18), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:cd3347@cumc.columbia.edu)
 - Congrui Zhang, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/BigBadApp1e), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:cz2750@cumc.columbia.edu)
 - Qiran Chen, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/qc2336), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:qc2336@cumc.columbia.edu)
 - Zihan Wu, [<img src="github-icon.png" alt="GitHub Icon" style="height:2em; width:2em;"/>](https://github.com/zw2974), [<img src="email-icon.png" alt="email-icon.png" style="height:2em; width:2em;"/>](mailto:zw2974@cumc.columbia.edu)

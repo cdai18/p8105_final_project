@@ -147,10 +147,9 @@ animate(map_with_animation, nframes = num_years, fp=1)
 Graph showing rat density change in the city of New York Over the years
 
 
-# Regression Analyses
+# ANOVA test
 
-ANOVA test on location type:
-
+## ANOVA test on location type:
 ```{r warning=FALSE, message=FALSE}
 loc_df = 
   rats_df %>% 
@@ -168,7 +167,10 @@ loc_df %>%
   labs(title = "Rat sightings by location type 2018-2023")
 ```
 
+## Interpretation of the ANOVA test on location type
+From the chart, it's evident that the highest number of rat sightings occurred in 3+ Family Apt. Buildings (indicated by the purple area), which peaked around 2021. The second-highest number of sightings is in 1-2 Family Dwellings (indicated by the blue area), followed by Commercial Buildings (green), and the least number of sightings are at Construction Sites (yellow).
 
+The alpha value is 0.8 refers to the significance level used in the ANOVA test. However, this is unusual because an alpha level of 0.8 would indicate a 20% probability of incorrectly rejecting the null hypothesis (a high chance of a Type I error), whereas common alpha levels are 0.05 or 0.01, which correspond to a 5% or 1% risk, respectively. It's possible that the alpha level is actually 0.05 or 0.01, and the value 0.8 may represent the power of the test, which is the probability that the test correctly rejects a false null hypothesis.
 
 
 
