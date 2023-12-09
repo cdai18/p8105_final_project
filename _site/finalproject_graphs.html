@@ -13,7 +13,7 @@
 
 <title>Explore the Intriguing World of Urban Wildlife Through Data: Rat Sightings in Focus</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -677,6 +677,10 @@ on rat sightings in New York City, particularly in Brooklyn. It also
 prompts further investigation into the enduring effects of the pandemic
 on urban wildlife and the efficacy of control measures
 post-pandemic.</p>
+</div>
+<div id="rat-sightings-by-location-type-2018-2023"
+class="section level3">
+<h3>Rat Sightings by Location Type, 2018-2023</h3>
 <pre class="r"><code>rats_df = 
   read_csv(&quot;./data/rat_sightings.csv&quot;, show_col_types = FALSE) %&gt;% 
   janitor::clean_names() %&gt;% 
@@ -699,6 +703,19 @@ loc_df %&gt;%
   theme_bw() + 
   labs(title = &quot;Rat sightings by location type 2018-2023&quot;)</code></pre>
 <p><img src="finalproject_graphs_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Our dataset also provided additional data on the type of location
+rats were spotted in. To understand where rats were most likely to be
+seen, we selected the top 4 most common location types and created an
+area graph to represent the amount of sightings in each type from 2018
+to 2023. In concordance with our other COVID-19 graphs, we saw a marked
+increased in sightings in general and across location types. The most
+common rat sighting location was a 3+ Family Apartment Building, the
+proportion of which actually increased during and post-COVID. We
+speculate that this could be because as quarantine restrictions were put
+in place, most people were spending the majority of their time inside
+their apartment buildings. By default, more rat sightings took place
+inside these apartment buildings. A similar case could be made for the
+2+ Family Dwelling category.</p>
 </div>
 </div>
 
