@@ -288,68 +288,357 @@ p::first-letter {
   color: #add8e6;
 }
 </style>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In our perspective, we regard rats as the unofficial mascots of New
+York City, a testament to their profound significance and historical
+presence in this iconic metropolis. When one conjures images of New York
+City, the mental tableau invariably includes Times Square, the Statue of
+Liberty, and, of course, the indomitable Rats! Since our arrival in the
+city, we have been captivated by the sheer abundance of these resilient
+creatures navigating our neighborhoods, particularly the astonishingly
+large specimens that traverse the urban landscape. Identified as brown
+rats, these New York City residents are renowned for their assertive and
+often aggressive behavior.</p>
+<p>Notably, the city’s rat population achieved global notoriety with the
+infamous pizza rat incident, wherein a rat valiantly carried a slice of
+pizza up a subway stairway. This incident serves as a vivid illustration
+of the uniqueness of New York City rats, setting them apart from their
+counterparts elsewhere. It’s not merely a matter of size; it’s a
+distinct species that has adapted to the urban environment in a way
+unparalleled by any other.</p>
+<p>However, beyond their quirky fame, we acknowledge the serious
+concerns associated with these rodents. New York City rats are potential
+carriers of various harmful diseases that can significantly impact human
+well-being. Their presence poses a threat to our food supply and living
+spaces, potentially contributing to or exacerbating chronic diseases
+such as asthma. The range of diseases they may carry is alarming,
+including bacteria responsible for food poisoning (Salmonella and E.
+coli) and pathogens causing severe, sometimes fatal fevers and
+viruses.</p>
+<p>Additionally, rats are vectors for fleas, lice, and mites,
+introducing a host of serious diseases to humans. Increased exposure to
+rodent hair, droppings, and urine heightens the risk of allergies and
+asthma. Disease transmission occurs when humans or their pets come into
+contact with rat saliva, urine, or feces. Furthermore, the structural
+integrity of our buildings is jeopardized by the rats’ gnawing and
+burrowing activities.</p>
+<p>While these pint-sized celebrities have gained recognition in New
+York and beyond, it remains paramount to manage their population
+effectively, ensuring the safety and well-being of residents. Vigilant
+control measures are necessary to mitigate the potential harm posed by
+these fascinating yet potentially hazardous urban companions</p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
 <p>The goal of our dataset is to see where most of the right sightings
-are within New York City. Additionally, we know that rats are
-significant within New York City, and seeing where they like to hang out
-would be crucial information for our knowledge. However, many New
-Yorkers know that the rats are a big problem here. They are
-overpopulated here about three million rats currently live within NYC
-and on average they are bigger compared to other rats ranging form 16
-inches to 20 inches. Back in April 20223, Rat Czar was implemented to
-help decrease the rat infestation that was happening within the city.
-Within our database we wanted to see if it was actually effective or not
-because we know these rats can be tricky to kill off.</p>
-<p>In our honest opionon, we consider the rats as the unofficial mascot
-of New York City due to their significance and history here. When people
-think of New York City, they probably think about Time Square, the
-Statue of Liberty and the Rats! Since all of us moved here in New York
-City, we have never experienced seeing so many rats crawling and running
-around oiu neighborhood before especially ones that are so big.
-Furthermore, who can forget the infamous pizza rat where a rat was
-carrying a slice of pizza up the stair way at the subway. This just
-further shows that New York City rats are a whole different species and
-no other rats can be compared to them. We also know that these rodents
-can carry many harmul diseases that can affect the human qualit life.
-Furthermore, these diseases can contaiminate onto our food supply by the
-rats. The infrastructure of our buildings could also be at risk due to
-the rats gnawing and burrowing. Even though these guys are infamously
-around New York, it is most important that they are kept under control,
-so no one is harmed by them.</p>
-<p>Within this dataset, we wanted to see which boroughs and areas had
-the most prevalent rat sightings. It would just be interesting
-information to see where they like to hang out at and when we find
-apartments next year we can avoid areas with high rat sightings.
-Furthermore, we wanted to see the effectiveness of Rat Czar and see if
-there a difference, so we are not wasting money into the program.
-Covid-19 was another factor we wanted to see if it played a role on rat
-sighting. Would social distancing affect the rats in any type of way. We
-also wanted to see if location type would affect the amount of times we
-would see the rats.</p>
-<p>The data that we used was from NYC open data which keeps track of all
-the reported rat sightings. The dataset is constantly being updated with
-new rat sightings being added every day. Firstly we used the clean
-janitor function to reformat the name of our columns. Then the data was
-cleaned by filtering for dates, the dates that we wanted to look was
-from the year 2019 to 2023, the reason for this is that wanted data
-before and after Covid-19 to see if there were any differences. We also
-wanted to see if Rat Czar was effective as well which was implemented in
-April 2023.</p>
-<p>Within our dataset, we originally wanted to do a regression on the
-difference of location type to see what type of location was more likely
-to have rat sightings. However, after many attempts on trying to
-manipulating the data, we realized that we could not do a regression
-analysis due to the fact that our data was descriptive and it only
-includes rat sightings which can’t be compared to anything else. Within
-the dataset, there isn’t any other numeric variable that we can used to
-make an analysis on. We decided to not include an anlsyis on the data.
-The visualizaitons that we used was looking at a map with the population
-density of the rats sighting within all five boroughs in the year 2023.
-We looked at months of March and November because it was the month
-before the Rat Czar was implemented and this would give us a good idea
-if the program is working on reducing the rat infestation. We also
-looked at the population density of the rat sightings throughout the
-whole year of 2023. We looked at the monthly</p>
-<p>ldksjfslkdjflsdkjflsdkjfskd</p>
+are within New York City and understand trends and patterns over time
+and place. We know that the rat presence is significant within New York
+City, and seeing where they like to hang out would be crucial
+information for public health purposes. According to M&amp;M Pest
+Control, rats in NYC are overpopulated – about three million rats
+currently live within NYC and on average they are bigger compared to
+other rats, ranging from 16 inches to 20 inches.</p>
+<div id="preliminary-data-cleaning" class="section level2">
+<h2>Preliminary data cleaning</h2>
+<p>The data that we used was from NYC open data, which keeps track of
+all the reported rat sightings. The dataset is constantly being updated
+with new rat sightings added every day. The dataset we used contained
+232,417 rows of data. We knew this would be too much data for the
+purposes of our project, so we did some preliminary data cleaning.</p>
+<p>First, we used the <code>janitor::clean()</code> function to reformat
+the name of our columns. We then selected a portion of the original
+columns to match our project goals. Since each of our observations had a
+date value that stored the day, month, year, and time, we used
+<code>separate</code> to divide this column into separate columns for
+each of these variables. Our preliminary cleaned dataset include the
+following variables:</p>
+<p><code>unique key</code>: a unique identifier for each rat sighting
+<code>month</code>: the numeric value of the month the rat sighting
+occurred in <code>day</code>: the day of the month that the rat sighting
+occurred on <code>year</code>: the year the rat sighting occurred in
+<code>time</code>: the hour, minute and millisecond the rat sighting
+occurred in <code>am_pm</code>: whether the time was in the AM or the PM
+<code>location_type</code>: the type of location the rat sighting
+occurred in <code>incident_zip</code>: the zip code the rat sighting
+occurred in <code>city</code>: the “city” the rat sighting occurred in
+<code>borough</code>: the borough the rat sighting occurred in
+<code>latitude</code>: the latitude value for the rat sighting
+<code>longitude</code>: the longitude value for the rat sighting
+<code>location</code>: the combined latitude and longitude coordinates
+for each rat sighting</p>
+</div>
+</div>
+<div id="exploratory-analysis" class="section level1">
+<h1>Exploratory Analysis</h1>
+<div id="general-trends-in-rat-sightings" class="section level3">
+<h3>General trends in rat sightings</h3>
+<pre class="r"><code># Plotting with ggplot2
+rat_czar_start_month &lt;- as.Date(&quot;2023-04-01&quot;) # The first day of the month when Rat Czar started
+
+ggplot(monthly_counts_after, aes(x = Month, y = Count)) +
+  geom_col(fill = &quot;skyblue&quot;) +
+  geom_vline(xintercept = as.numeric(rat_czar_start_month), linetype=&quot;dashed&quot;, color = &quot;red&quot;, size=1.5) +
+  geom_text(aes(x = rat_czar_start_month, y = max(monthly_counts_after$Count), label = &quot;Rat Czar Start&quot;), 
+            color = &quot;red&quot;, vjust = -1, angle = 90, linewidth = 4) +
+  scale_x_date(date_breaks = &quot;1 month&quot;, date_labels = &quot;%b-%Y&quot;) +
+  labs(title = &#39;Monthly Rat Sightings from April 2022 to November 2023&#39;,
+       x = &#39;Month&#39;,
+       y = &#39;Number of Sightings&#39;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The bar graph above illustrates the number of reported rat sightings
+from April 2022 to November 2023. The red dashed line marks the
+beginning of the Rat Czar’s term in April 2023.</p>
+<p>A cursory glance at the graph suggests that there is variability in
+the number of sightings reported each month, which may be influenced by
+a variety of factors including seasonal changes and the urban
+environment. While there is no immediate drastic reduction in sightings
+following the appointment of the Rat Czar, this could imply that
+strategies employed require time to take effect, or that their impact is
+not instantly observable from this data alone.</p>
+</div>
+<div
+id="rat-sightings-comparison-by-borough-before-and-after-rat-czar-office"
+class="section level3">
+<h3>Rat Sightings Comparison by Borough Before and After Rat Czar
+Office</h3>
+</div>
+<div id="interpretation-of-the-graph" class="section level3">
+<h3>Interpretation of the Graph</h3>
+<p>The graph displays monthly rat sightings by borough in New York City
+from April 2022 to November 2023. Each borough is represented by a
+different color, with an additional category for unspecified locations.
+A red dashed line denotes April 2023, when the Rat Czar commenced their
+role.</p>
+<p>Interpreting the graph, we can observe that sightings fluctuate
+monthly, with peaks and troughs that may be influenced by various
+factors, such as changes in weather or waste management practices. After
+the red line, indicating the Rat Czar’s start date, there is no
+immediate and drastic change in the trend of sightings for any borough.
+This could suggest that any measures implemented by the Rat Czar may
+take time to show significant effects.</p>
+<p>Additionally, it’s noticeable that certain boroughs, such as Brooklyn
+and Manhattan, consistently report higher numbers of sightings. The
+graph also shows that some months exhibit a higher number of sightings
+across all boroughs, which might indicate seasonal patterns in rat
+activity or reporting.</p>
+<p>Lastly, the unspecified category indicates reports that did not have
+a borough listed. The presence of this category suggests that data
+collection or reporting may have inconsistencies, which could affect the
+analysis.</p>
+<p>Overall, while the Rat Czar’s impact isn’t immediately discernible
+from the graph, ongoing analysis with more data over time will be
+essential to understand the full effect of the initiatives taken to
+control the rat population.</p>
+</div>
+<div id="rat-sightings-and-covid-19" class="section level2">
+<h2>Rat Sightings and Covid-19</h2>
+<p>The COVID-19 pandemic brought unprecedented challenges to urban
+management and public health. In New York City, changes in human
+activity during the pandemic may have influenced rat behavior and
+sightings. This section analyzes the rat sightings data to observe
+potential shifts in rat populations across the city’s boroughs during
+the pre-pandemic, pandemic, and post-pandemic periods.</p>
+<div id="general-analysis" class="section level3">
+<h3>General Analysis</h3>
+<pre class="r"><code>rat_data$Year &lt;- year(rat_data$Created_Date)
+# Aggregate the number of sightings per year
+yearly_sightings &lt;- rat_data %&gt;%
+  group_by(Year) %&gt;%
+  summarise(Count = n(), .groups = &#39;drop&#39;)
+
+# The data must be ungrouped before plotting in some ggplot2 versions
+yearly_sightings &lt;- ungroup(yearly_sightings)
+
+# Plotting the number of rat sightings per year with enhancements
+max_count &lt;- max(yearly_sightings$Count)
+ggplot(yearly_sightings, aes(x = Year, y = Count)) +
+  geom_col(fill = &quot;#69b3a2&quot;) +
+  geom_vline(xintercept = 2020, linetype=&quot;dashed&quot;, color = &quot;#e36bae&quot;, size=1.5) +
+  geom_text(aes(x = 2020, y = max_count - 5000, label = &quot;COVID&quot;),  # Adjust position here
+            color = &quot;#e36bae&quot;, vjust = 1, angle = 90, size = 4, fontface = &quot;bold&quot;) +
+  scale_x_continuous(breaks = yearly_sightings$Year, labels = scales::label_wrap(5)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = &#39;Yearly Rat Sightings in New York City&#39;,
+       subtitle = &quot;An increase in sightings is observed around the start of COVID.&quot;,
+       x = &#39;Year&#39;,
+       y = &#39;Number of Sightings&#39;,
+       caption = &quot;Data source: NYC Open Data&quot;) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5),
+    plot.subtitle = element_text(size = 14),
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    axis.title = element_text(size = 16),
+    legend.position = &quot;none&quot;,
+    plot.caption = element_text(hjust = 0, vjust = 1)
+  )</code></pre>
+<p><img src="final-project-report_files/figure-html/covid-preprocessing-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-yearly-rat-sightings-graph"
+class="section level3">
+<h3>Interpretation of the Yearly Rat Sightings Graph</h3>
+<p>The bar chart illustrates the trend in yearly rat sightings reported
+in New York City from 2010 through 2023. There is a notable increase in
+sightings in the year 2020, marked by a dashed pink line, which
+coincides with the onset of the COVID-19 pandemic. This rise suggests a
+potential impact of the pandemic on rat sighting occurrences, possibly
+due to changes in human activity patterns and urban waste dynamics
+during the pandemic.</p>
+<p>Subsequent years, 2021 and 2022, maintain a higher level of sightings
+compared to the pre-pandemic years, indicating that the factors
+contributing to increased sightings may have persisted beyond the
+initial pandemic phase. The data for 2023 shows a continued prevalence
+of rat sightings, suggesting that the conditions favorable to rat
+visibility or population growth are still present.</p>
+<p>However, without further analysis, we cannot conclusively attribute
+changes in rat sighting trends solely to the pandemic. Other
+environmental, social, or data collection factors might also play a
+role. Ongoing monitoring and analysis would be necessary to understand
+the full range of influences on rat sightings in New York City.</p>
+</div>
+<div id="daily-rat-sightings-comparison" class="section level3">
+<h3>Daily Rat Sightings Comparison</h3>
+<pre class="r"><code># Define the pandemic period and the post-pandemic start
+pandemic_start &lt;- as.Date(&quot;2020-03-11&quot;)
+post_pandemic_start &lt;- as.Date(&quot;2023-05-05&quot;)
+
+# Filter the data for the analysis period (2019-2023)
+analysis_data &lt;- rat_data %&gt;%
+  filter(Year &gt;= 2019) %&gt;%
+  mutate(Period = case_when(
+    Created_Date &lt; pandemic_start ~ &quot;Pre-COVID&quot;,
+    Created_Date &gt;= pandemic_start &amp; Created_Date &lt; post_pandemic_start ~ &quot;During-COVID&quot;,
+    Created_Date &gt;= post_pandemic_start ~ &quot;Post-COVID&quot;
+  ))
+
+# Calculate the daily sightings for each period
+daily_sightings &lt;- analysis_data %&gt;%
+  count(Period, Date = as.Date(Created_Date)) %&gt;%
+  group_by(Period) %&gt;%
+  summarise(Avg_Daily_Sightings = mean(n), .groups = &#39;drop&#39;)
+
+# Plot the average daily sightings for each period
+ggplot(daily_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Period)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  scale_fill_manual(values = c(&quot;Pre-COVID&quot; = &quot;blue&quot;, &quot;During-COVID&quot; = &quot;red&quot;, &quot;Post-COVID&quot; = &quot;green&quot;)) +
+  labs(title = &#39;Average Daily Rat Sightings in NYC (2019-2023)&#39;,
+       subtitle = &quot;Comparison across Pre-COVID, During-COVID, and Post-COVID Periods&quot;,
+       x = &#39;Period&#39;,
+       y = &#39;Average Daily Sightings&#39;) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-average-daily-rat-sightings-graph"
+class="section level3">
+<h3>Interpretation of the Average Daily Rat Sightings Graph</h3>
+<p>The graph shows a comparison of average daily rat sightings in New
+York City across three periods: before the COVID-19 pandemic
+(Pre-COVID), during the pandemic (During-COVID), and after the
+pandemic’s prevalence (Post-COVID). The “During-COVID” period exhibits
+the highest average daily sightings, depicted by the red bar, which
+could reflect the disruption of human activities and waste patterns
+during the pandemic, potentially leading to increased rat visibility or
+population changes.</p>
+<p>Interestingly, the “Post-COVID” period, represented by the green bar,
+shows a continuation of higher average sightings compared to the
+“Pre-COVID” period (blue bar). This suggests that the conditions leading
+to increased sightings during the pandemic may have persisted or that
+the rat population has been lastingly impacted by the pandemic’s
+effects.</p>
+<p>The data indicates that the pandemic may have had a significant and
+enduring impact on rat sighting dynamics in the city, warranting further
+investigation into urban wildlife patterns and public health
+implications in the post-pandemic era.</p>
+<pre class="r"><code># Grouping data by borough, period, and date, then calculating the average daily sightings
+borough_period_sightings &lt;- analysis_data %&gt;%
+  group_by(Borough, Period, Date = as.Date(Created_Date)) %&gt;%
+  summarise(Daily_Count = n(), .groups = &#39;drop&#39;) %&gt;%
+  group_by(Borough, Period) %&gt;%
+  summarise(Avg_Daily_Sightings = mean(Daily_Count), .groups = &#39;drop&#39;)
+
+# Define a color palette
+colors &lt;- c(&quot;#FF6666&quot;, &quot;#FFCC66&quot;, &quot;#66CC66&quot;, &quot;#66CCCC&quot;, &quot;#6666CC&quot;, &quot;#CC66CC&quot;, &quot;#000000&quot;)
+
+# Assign colors to boroughs
+borough_colors &lt;- setNames(colors, unique(borough_period_sightings$Borough))
+
+# Plot with the selected color palette
+ggplot(borough_period_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Borough)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  scale_fill_manual(values = borough_colors) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+    axis.title = element_text(size = 14),
+    legend.position = &quot;bottom&quot;
+  ) +
+  labs(
+    title = &#39;Average Daily Rat Sightings by Borough (2019-2023)&#39;,
+    subtitle = &quot;Across Pre-COVID, During-COVID, and Post-COVID Periods&quot;,
+    x = &#39;COVID-19 Period&#39;,
+    y = &#39;Average Daily Sightings&#39;,
+    fill = &#39;Borough&#39;
+  )</code></pre>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="interpretation-of-the-average-daily-rat-sightings-by-borough"
+class="section level3">
+<h3>Interpretation of the Average Daily Rat Sightings by Borough</h3>
+<p>The bar chart compares average daily rat sightings in New York City
+by borough, across three different periods: Pre-COVID, During-COVID, and
+Post-COVID. Each borough is distinctly colored, allowing for an easy
+visual comparison.</p>
+<ul>
+<li><p><strong>During-COVID</strong>: Brooklyn shows the highest average
+daily rat sightings among all boroughs, indicating that this borough may
+have experienced the greatest impact from pandemic-related changes.
+These changes could include disruptions in waste management and
+alterations in human activity that could affect rat behavior.</p></li>
+<li><p><strong>Post-COVID</strong>: While there is a general decrease in
+sightings in the Post-COVID period compared to During-COVID, the number
+of sightings remains higher than in the Pre-COVID period. This suggests
+that some of the factors affecting rat sightings during the pandemic may
+continue to influence these numbers.</p></li>
+<li><p><strong>Pre-COVID</strong>: This period serves as a baseline,
+showing the average daily sightings before the pandemic began. All
+boroughs have relatively lower sightings compared to During-COVID,
+reflecting the typical urban rat activity.</p></li>
+</ul>
+<p>This visual analysis underscores the impact of the COVID-19 pandemic
+on rat sightings in New York City, particularly in Brooklyn. It also
+prompts further investigation into the enduring effects of the pandemic
+on urban wildlife and the efficacy of control measures
+post-pandemic.</p>
+<pre class="r"><code>rats_df = 
+  read_csv(&quot;./data/rat_sightings.csv&quot;, show_col_types = FALSE) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %&gt;% 
+  separate(created_date, into = c(&quot;created_date&quot;, &quot;time&quot;, &quot;am_pm&quot;), sep = &quot; &quot;) %&gt;% 
+  separate(created_date, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), sep = &quot;/&quot;)
+
+loc_df = 
+  rats_df %&gt;% 
+    filter(year == &quot;2018&quot; | year == &quot;2019&quot; | year == &quot;2020&quot; | year == &quot;2021&quot; | year == &quot;2022&quot; | year == &quot;2023&quot;) %&gt;% 
+    select(year, location_type) %&gt;% 
+    group_by(year, location_type) %&gt;% 
+    summarize(sightings = n()) %&gt;% 
+    arrange(desc(sightings)) %&gt;% 
+    filter(location_type == &quot;3+ Family Apt. Building&quot; | location_type == &quot;1-2 Family Dwelling&quot; | location_type == &quot;Commercial Building&quot; | location_type == &quot;Construction Site&quot;)
+
+loc_df %&gt;% 
+  ggplot(aes(x = year, y = sightings, fill = location_type)) + 
+  geom_area(aes(group = location_type, alpha = 0.8)) +
+  theme_bw() + 
+  labs(title = &quot;Rat sightings by location type 2018-2023&quot;)</code></pre>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Regression Analysis</p>
+</div>
+</div>
+</div>
 
 
 
