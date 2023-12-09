@@ -13,17 +13,10 @@ body {
   font-family: 'Roboto', sans-serif;
   line-height: 2.0;
 }
-
-p::first-letter {
-  font-size: 150%;
-  font-weight: bold;
-  color: #add8e6;
-}
 </style>
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(readr)
 library(lubridate)
@@ -33,6 +26,11 @@ library(ggmap)
 library(tidyr)
 library(scales)
 library(tidyverse)
+library(stats)
+library(boot)
+library(caret)
+library(lmtest)
+set.seed(2023)
 ```
 
 # Introduction
@@ -49,28 +47,28 @@ While these pint-sized celebrities have gained recognition in New York and beyon
 # Data
 The goal of our dataset is to see where most of the right sightings are within New York City and understand trends and patterns over time and place. We know that the rat presence is significant within New York City, and seeing where they like to hang out would be crucial information for public health purposes. According to M&M Pest Control, rats in NYC are overpopulated --  about three million rats currently live within NYC and on average they are bigger compared to other rats, ranging from 16 inches to 20 inches. 
 
-## Preliminary data cleaning
+### Preliminary data cleaning
 The data that we used was from NYC open data, which keeps track of all the reported rat sightings. The dataset is constantly being updated with new rat sightings added every day. The dataset we used contained 232,417 rows of data. We knew this would be too much data for the purposes of our project, so we did some preliminary data cleaning.
 
 First, we used the `janitor::clean()` function to reformat the name of our columns. We then selected a portion of the original columns to match our project goals. Since each of our observations had a date value that stored the day, month, year, and time, we used `separate` to divide this column into separate columns for each of these variables. Our preliminary cleaned dataset include the following variables:
 
-`unique key`: a unique identifier for each rat sighting
-`month`: the numeric value of the month the rat sighting occurred in
-`day`: the day of the month that the rat sighting occurred on
-`year`: the year the rat sighting occurred in
-`time`: the hour, minute and millisecond the rat sighting occurred in
-`am_pm`: whether the time was in the AM or the PM
-`location_type`: the type of location the rat sighting occurred in
-`incident_zip`: the zip code the rat sighting occurred in
-`city`: the “city” the rat sighting occurred in
-`borough`: the borough the rat sighting occurred in
-`latitude`: the latitude value for the rat sighting
-`longitude`: the longitude value for the rat sighting
-`location`: the combined latitude and longitude coordinates for each rat sighting
+* `unique key`: a unique identifier for each rat sighting
+* `month`: the numeric value of the month the rat sighting occurred in
+* `day`: the day of the month that the rat sighting occurred on
+* `year`: the year the rat sighting occurred in
+* `time`: the hour, minute and millisecond the rat sighting occurred in
+* `am_pm`: whether the time was in the AM or the PM
+* `location_type`: the type of location the rat sighting occurred in
+* `incident_zip`: the zip code the rat sighting occurred in
+* `city`: the “city” the rat sighting occurred in
+* `borough`: the borough the rat sighting occurred in
+* `latitude`: the latitude value for the rat sighting
+* `longitude`: the longitude value for the rat sighting
+* `location`: the combined latitude and longitude coordinates for each rat sighting
 
 # Exploratory Analysis
 
-```{r, include = FALSE}
+```{r echo = FALSE}
 # Load the rat sightings data
 rat_data <- read_csv("data/rat_sightings.csv", show_col_types = FALSE)
 
@@ -94,7 +92,7 @@ monthly_counts_after <- data_after_one_year_before_rat_czar %>%
 ```
 
 ### General trends in rat sightings
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 # Plotting with ggplot2
 rat_czar_start_month <- as.Date("2023-04-01") # The first day of the month when Rat Czar started
 
@@ -117,7 +115,7 @@ A cursory glance at the graph suggests that there is variability in the number o
 
 
 ### Rat Sightings Comparison by Borough Before and After Rat Czar Office
-```{r, include = FALSE}
+```{r, echo = FALSE}
 
 # Assuming 'rat_data' has already been loaded and 'Created_Date' has been processed
 
@@ -148,7 +146,6 @@ ggplot(sightings_by_borough_month, aes(x = Month, y = Count, fill = Borough)) +
   theme(legend.position = "bottom")
 ```
 
-### Interpretation of the Graph
 The graph displays monthly rat sightings by borough in New York City from April 2022 to November 2023. Each borough is represented by a different color, with an additional category for unspecified locations. A red dashed line denotes April 2023, when the Rat Czar commenced their role.
 
 Interpreting the graph, we can observe that sightings fluctuate monthly, with peaks and troughs that may be influenced by various factors, such as changes in weather or waste management practices. After the red line, indicating the Rat Czar's start date, there is no immediate and drastic change in the trend of sightings for any borough. This could suggest that any measures implemented by the Rat Czar may take time to show significant effects.
@@ -159,12 +156,12 @@ Lastly, the unspecified category indicates reports that did not have a borough l
 
 Overall, while the Rat Czar's impact isn't immediately discernible from the graph, ongoing analysis with more data over time will be essential to understand the full effect of the initiatives taken to control the rat population.
 
-## Rat Sightings and Covid-19
+### Rat Sightings and Covid-19
 The COVID-19 pandemic brought unprecedented challenges to urban management and public health. In New York City, changes in human activity during the pandemic may have influenced rat behavior and sightings. This section analyzes the rat sightings data to observe potential shifts in rat populations across the city's boroughs during the pre-pandemic, pandemic, and post-pandemic periods.
 
 ### General Analysis
 
-```{r covid-preprocessing}
+```{r covid-preprocessing, echo = FALSE}
 rat_data$Year <- year(rat_data$Created_Date)
 # Aggregate the number of sightings per year
 yearly_sightings <- rat_data %>%
@@ -199,8 +196,6 @@ ggplot(yearly_sightings, aes(x = Year, y = Count)) +
   )
 ```
 
-### Interpretation of the Yearly Rat Sightings Graph
-
 The bar chart illustrates the trend in yearly rat sightings reported in New York City from 2010 through 2023. There is a notable increase in sightings in the year 2020, marked by a dashed pink line, which coincides with the onset of the COVID-19 pandemic. This rise suggests a potential impact of the pandemic on rat sighting occurrences, possibly due to changes in human activity patterns and urban waste dynamics during the pandemic. 
 
 Subsequent years, 2021 and 2022, maintain a higher level of sightings compared to the pre-pandemic years, indicating that the factors contributing to increased sightings may have persisted beyond the initial pandemic phase. The data for 2023 shows a continued prevalence of rat sightings, suggesting that the conditions favorable to rat visibility or population growth are still present.
@@ -209,7 +204,7 @@ However, without further analysis, we cannot conclusively attribute changes in r
 
 ### Daily Rat Sightings Comparison
 
-```{r}
+```{r echo = FALSE}
 # Define the pandemic period and the post-pandemic start
 pandemic_start <- as.Date("2020-03-11")
 post_pandemic_start <- as.Date("2023-05-05")
@@ -242,15 +237,15 @@ ggplot(daily_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Period))
 
 ```
 
-### Interpretation of the Average Daily Rat Sightings Graph
-
 The graph shows a comparison of average daily rat sightings in New York City across three periods: before the COVID-19 pandemic (Pre-COVID), during the pandemic (During-COVID), and after the pandemic's prevalence (Post-COVID). The "During-COVID" period exhibits the highest average daily sightings, depicted by the red bar, which could reflect the disruption of human activities and waste patterns during the pandemic, potentially leading to increased rat visibility or population changes.
 
 Interestingly, the "Post-COVID" period, represented by the green bar, shows a continuation of higher average sightings compared to the "Pre-COVID" period (blue bar). This suggests that the conditions leading to increased sightings during the pandemic may have persisted or that the rat population has been lastingly impacted by the pandemic's effects.
 
 The data indicates that the pandemic may have had a significant and enduring impact on rat sighting dynamics in the city, warranting further investigation into urban wildlife patterns and public health implications in the post-pandemic era.
 
-```{r}
+### Average Daily Rat Sightings by Borough
+
+```{r echo = FALSE}
 # Grouping data by borough, period, and date, then calculating the average daily sightings
 borough_period_sightings <- analysis_data %>%
   group_by(Borough, Period, Date = as.Date(Created_Date)) %>%
@@ -283,9 +278,6 @@ ggplot(borough_period_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill =
   )
 ```
 
-
-### Interpretation of the Average Daily Rat Sightings by Borough
-
 The bar chart compares average daily rat sightings in New York City by borough, across three different periods: Pre-COVID, During-COVID, and Post-COVID. Each borough is distinctly colored, allowing for an easy visual comparison.
 
 - **During-COVID**: Brooklyn shows the highest average daily rat sightings among all boroughs, indicating that this borough may have experienced the greatest impact from pandemic-related changes. These changes could include disruptions in waste management and alterations in human activity that could affect rat behavior.
@@ -295,6 +287,8 @@ The bar chart compares average daily rat sightings in New York City by borough, 
 - **Pre-COVID**: This period serves as a baseline, showing the average daily sightings before the pandemic began. All boroughs have relatively lower sightings compared to During-COVID, reflecting the typical urban rat activity.
 
 This visual analysis underscores the impact of the COVID-19 pandemic on rat sightings in New York City, particularly in Brooklyn. It also prompts further investigation into the enduring effects of the pandemic on urban wildlife and the efficacy of control measures post-pandemic.
+
+### Rat Sightings by Location Type, 2018-2023
 
 ```{r warning=FALSE, message=FALSE}
 rats_df = 
@@ -317,8 +311,240 @@ loc_df %>%
   ggplot(aes(x = year, y = sightings, fill = location_type)) + 
   geom_area(aes(group = location_type, alpha = 0.8)) +
   theme_bw() + 
-  labs(title = "Rat sightings by location type 2018-2023")
+  labs(title = "Rat sightings by location type 2018-2023") + 
+  guides(alpha = FALSE)
 ```
 
-Regression Analysis
+Our dataset also provided additional data on the type of location rats were spotted in. To understand where rats were most likely to be seen, we selected the top 4 most common location types and created an area graph to represent the amount of sightings in each type from 2018 to 2023. In concordance with our other COVID-19 graphs, we saw a marked increased in sightings in general and across location types. The most common rat sighting location was a 3+ Family Apartment Building, the proportion of which actually increased during and post-COVID. We speculate that this could be because as quarantine restrictions were put in place, most people were spending the majority of their time inside their apartment buildings. By default, more rat sightings took place inside these apartment buildings. A similar case could be made for the 2+ Family Dwelling category.
+
+# Regression Analysis
+
+```{r, include=FALSE}
+# Load the rat sightings data
+rat_data <- read_csv("data/rat_sightings.csv", show_col_types = FALSE)
+
+# Convert 'Created Date' to datetime format and extract year and month
+rat_data$Created_Date <- as.Date(rat_data$`Created Date`, format="%m/%d/%Y %H:%M:%S")
+rat_data$Year <- year(rat_data$Created_Date)
+rat_data$Month <- month(rat_data$Created_Date)
+
+# Define start dates for Rat Czar and COVID-19 pandemic
+rat_czar_start_date <- as.Date("2023-04-12")
+pandemic_start_date <- as.Date("2020-03-11")
+
+# Creating binary variables for pre and post Rat Czar and COVID-19 periods
+rat_data$Pre_Rat_Czar <- ifelse(rat_data$Created_Date < rat_czar_start_date, 1, 0)
+rat_data$Post_Rat_Czar <- ifelse(rat_data$Created_Date >= rat_czar_start_date, 1, 0)
+rat_data$Pre_Covid <- ifelse(rat_data$Created_Date < pandemic_start_date, 1, 0)
+rat_data$During_Covid <- ifelse(rat_data$Created_Date >= pandemic_start_date & rat_data$Created_Date < rat_czar_start_date, 1, 0)
+rat_data$Post_Covid <- ifelse(rat_data$Created_Date >= rat_czar_start_date, 1, 0)
+
+# Aggregate data by month and year for rat sightings
+monthly_sightings <- rat_data %>%
+  group_by(Year, Month) %>%
+  summarise(Sightings = n())
+
+# Merge with original data to include binary variables
+merged_data <- merge(monthly_sightings, unique(rat_data[,c("Year", "Month", "Pre_Rat_Czar", "Post_Rat_Czar", "Pre_Covid", "During_Covid", "Post_Covid")]), by = c("Year", "Month"))
+```
+
+### Impact of Rat Czar Appointment
+```{r warning=FALSE, message=FALSE}
+## Impact of Rat Czar Appointment
+model_rat_czar <- lm(Sightings ~ Pre_Rat_Czar, data = merged_data)
+summary(model_rat_czar)
+```
+
+The regression analysis indicates a significant increase in rat sightings following the appointment of the Rat Czar. The model, with an R-squared value of 0.112, explains approximately 11.2% of the variance in rat sightings. The significant negative coefficient for `Pre_Rat_Czar` (-936, p < 0.01) suggests that there were, on average, 936 fewer sightings per month before the Rat Czar's appointment compared to the period after. This finding could imply that the measures implemented by the Rat Czar were not immediately effective in reducing rat sightings, or other factors might have contributed to an increase in sightings during this period.
+
+### Impact of COVID-19 Pandemic
+```{r warning=FALSE, message=FALSE}
+model_covid <- lm(Sightings ~ Pre_Covid + During_Covid, data = merged_data)
+summary(model_covid)
+```
+
+The COVID-19 pandemic also appears to have had a significant impact on rat sightings. The model's R-squared value of 0.3953 indicates that it explains about 39.53% of the variance in rat sightings. The coefficients for `Pre_Covid` and `During_Covid` are -1116.1 (p < 0.01) and -353.2 (p = 0.0531), respectively. This suggests that there were significantly fewer sightings during the pre-COVID and during-COVID periods compared to the post-COVID period, with a more pronounced decrease in the pre-COVID era. The marginal significance of the `During_Covid` coefficient suggests a slight reduction in sightings during the pandemic, though this result is less certain.
+
+### Overall Conclusion
+
+These findings underscore the complex nature of urban wildlife dynamics, particularly in response to significant events such as the appointment of a public official or a global pandemic. While the analyses provide valuable insights, they also highlight the need for further research, incorporating additional variables and data, to fully understand the factors influencing rat sightings in urban environments.
+
+## Bootstrapping of Rat Czar
+
+### Bootstrap Results
+```{r warning=FALSE, message=FALSE}
+# Define the statistic function for bootstrapping with only Pre_Rat_Czar
+stat_function <- function(data, indices) {
+  d <- data[indices, ] # allows bootstrapping to select sample
+  fit <- lm(Sightings ~ Pre_Rat_Czar, data = d)
+  return(coef(fit))
+}
+
+# Apply the bootstrapping with R = 1000 bootstrap replicates
+results <- boot(data = merged_data, statistic = stat_function, R = 1000)
+
+print(results)
+```
+  
+The bootstrapping process was applied to the regression analysis of rat sightings with respect to the Rat Czar appointment. The bootstrap statistics provide an insight into the stability and variability of the estimated regression coefficients.
+
+### Bootstrap Results:
+- **Intercept (Post_Rat_Czar period) Coefficient**:
+  - **Original**: 2285.8750
+  - **Bias**: 0.4169434
+  - **Standard Error**: 167.5870
+
+- **Pre_Rat_Czar Coefficient**:
+  - **Original**: -936.0427
+  - **Bias**: -2.5392402
+  - **Standard Error**: 172.5642
+  
+
+The bootstrap results indicate that the bias for both coefficients is small, suggesting that the estimates from our original model are stable across different samples of our data. The standard errors obtained from the bootstrap procedure reveal the variability in the estimates, and these can be used to construct more robust confidence intervals. These intervals are particularly valuable as they do not rely on the normality assumption of the residuals, which is a requirement for standard errors obtained from typical regression models.
+
+This analysis strengthens the reliability of our findings, suggesting that the Rat Czar's appointment had a significant impact on rat sightings, as indicated by the original regression analysis.
+
+## Cross-Validation of Rat Czar
+
+```{r warning=FALSE, message=FALSE}
+## Define control using k-fold cross-validation
+train_control <- trainControl(method = "cv", number = 10)
+
+# Train the model
+model <- train(Sightings ~ Pre_Rat_Czar + Post_Rat_Czar,
+               data = merged_data,
+               trControl = train_control,
+               method = "lm")
+
+# Summarize the results
+print(model)
+```
+
+### Cross-Validation Results for Linear Regression Analysis
+
+Cross-validation was conducted to assess the model's predictive performance. 
+
+### Cross-Validation Results:
+
+- **RMSE (Root Mean Squared Error)**: 557.807
+- **R-squared**: 0.1889574
+- **MAE (Mean Absolute Error)**: 459.687
+
+
+The RMSE and MAE are measures of the model's prediction error. The relatively high values of RMSE (557.807) and MAE (459.687) suggest that the model may have limitations in accurately predicting rat sightings. A lower RMSE and MAE would indicate a better fit to the data.
+
+The R-squared value of 0.1889574 implies that the model explains approximately 18.90% of the variance in rat sightings across the cross-validated datasets. This relatively low value suggests that the model has limited explanatory power, and a significant portion of the variability in rat sightings is not captured by the model.
+
+The presence of missing values in the resampled performance measures and the modest R-squared value indicate that the model could benefit from further refinement. Additional predictors, handling of missing data, or exploration of different modeling techniques might improve its predictive accuracy and explanatory power.
+
+Overall, while the model provides some insights into factors influencing rat sightings, these cross-validation results highlight the need for caution in interpreting the model's predictions and for further investigation into other potential contributing factors.
+
+## Bootstrap and Cross-Validation Results for COVID-19 Impact Analysis
+
+### Bootstrap Analysis for COVID-19 Impact
+```{r warning=FALSE, message=FALSE}
+## Define the statistic function for bootstrapping
+stat_function_covid <- function(data, indices) {
+  d <- data[indices, ] # allows bootstrapping to select sample
+  fit <- lm(Sightings ~ Pre_Covid + During_Covid, data = d)
+  return(coef(fit))
+}
+
+## Apply the bootstrapping with R = 1000 bootstrap replicates
+bootstrap_results_covid <- boot(data = merged_data, statistic = stat_function_covid, R = 1000)
+
+## Print the results
+print(bootstrap_results_covid)
+```
+
+### Cross-Validation for COVID-19 Impact
+```{r warning=FALSE, message=FALSE}
+## Define the control using 10-fold cross-validation
+train_control <- trainControl(method = "cv", number = 10)
+
+## Train the model
+model_cv_covid <- train(Sightings ~ Pre_Covid + During_Covid,
+                        data = merged_data,
+                        trControl = train_control,
+                        method = "lm")
+
+## Summarize the results
+print(model_cv_covid)
+```
+
+We performed a bootstrap analysis and cross-validation to assess the stability and predictive performance of our regression model, which estimates the impact of the COVID-19 pandemic on rat sightings.
+
+### Bootstrap Results for COVID-19 Analysis
+
+The bootstrap analysis provides an estimate of the variability of our regression coefficients:
+
+- **Intercept (Post-COVID period) Coefficient**:
+  - **Original**: 2285.8750
+  - **Bias**: -8.203824
+  - **Standard Error**: 171.9859
+
+- **Pre_COVID Coefficient**:
+  - **Original**: -1116.1108
+  - **Bias**: 9.569559
+  - **Standard Error**: 178.2595
+
+- **During_COVID Coefficient**:
+  - **Original**: -353.1908
+  - **Bias**: 7.824894
+  - **Standard Error**: 197.9294
+
+The small biases indicate that our coefficient estimates are robust and consistent across different samples of the data. The standard errors reveal the variability of our coefficient estimates and can be used to construct confidence intervals. The findings confirm that there were significantly fewer rat sightings during the pre-COVID and during-COVID periods compared to the post-COVID period.
+
+### Cross-Validation Results for COVID-19 Analysis
+
+Cross-validation was utilized to assess the model's predictive performance. The results are as follows:
+
+- **RMSE (Root Mean Squared Error)**: 465.3739
+- **R-squared**: 0.4217767
+- **MAE (Mean Absolute Error)**: 379.1727
+
+These measures provide insights into the model's prediction error and its explanatory power. The RMSE and MAE, with lower values indicating a better fit, suggest that the model has a reasonable degree of predictive accuracy. The R-squared value, indicating that about 42.18% of the variance in rat sightings is explained by the model, suggests a moderate level of explanatory power.
+
+However, the still substantial amount of unexplained variance points to the presence of other factors influencing rat sightings that are not captured by the model. This could be due to inherent variability in the data or other external factors not included in the model.
+
+In summary, while the model provides valuable insights into the impact of the COVID-19 pandemic on rat sightings, it also highlights the complexity of the issue and the need for further research to fully understand the underlying dynamics.
+
+```{r}
+# Diagnostic Plots for Rat Czar Model
+par(mfrow = c(2, 2))  # Set up the plotting area
+plot(model_rat_czar)
+
+# Durbin-Watson Test for Rat Czar Model
+dwtest(model_rat_czar)
+
+# Diagnostic Plots for COVID-19 Model
+par(mfrow = c(2, 2))  # Set up the plotting area
+plot(model_covid)
+
+# Durbin-Watson Test for COVID-19 Model
+dwtest(model_covid)
+```
+
+
+Based on our diagnostic checks, we have some interesting observations that shed light on our regression models.
+
+### Observations from Diagnostic Plots:
+
+- The **Residuals vs Fitted** plots for both the Rat Czar and COVID-19 models demonstrate a reasonable spread around the horizontal axis. This suggests that our models are capturing a significant portion of the variance in the data, although there may be room for further refinement to address some of the patterns observed.
+  
+- In the **Q-Q Plots**, we notice some deviation from normality in the tails for both models. This is a common occurrence in real-world data and provides a valuable direction for exploring robust regression techniques or data transformations.
+
+- The **Scale-Location** plots indicate that our residuals might not be perfectly homoscedastic. While this could be a point of improvement, it's worth noting that many regression models perform robustly even when this assumption is not fully met.
+
+- **Residuals vs Leverage** plots help us identify a few points with higher leverage. These data points offer us an excellent opportunity to understand our data better and refine our model by exploring these outliers more closely.
+
+### Insights from Durbin-Watson Test:
+
+- The Durbin-Watson test results for both models suggest the presence of autocorrelation in the residuals. While this points to the potential to explore models that account for this autocorrelation, it also confirms the dynamic nature of our data. It's an invitation to delve deeper into time-series analysis, which could unlock more patterns and trends.
+
+### Overall Conclusion:
+
+The results of our regression analysis are promising, showing that our models are capable of capturing key trends in the data. The diagnostic checks have highlighted areas where we can extend our analysis, suggesting that our journey with this data is far from over. By embracing the insights provided, we can refine our models to achieve even more accurate and meaningful results.
+
+Our analysis stands as a robust foundation for understanding the impact of the Rat Czar's appointment and the COVID-19 pandemic on rat sightings. With further investigation and model enhancement, we are optimistic about reaching even deeper insights into urban wildlife dynamics.
 

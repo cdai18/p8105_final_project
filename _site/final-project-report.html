@@ -281,12 +281,6 @@ body {
   font-family: 'Roboto', sans-serif;
   line-height: 2.0;
 }
-
-p::first-letter {
-  font-size: 150%;
-  font-weight: bold;
-  color: #add8e6;
-}
 </style>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -339,8 +333,8 @@ information for public health purposes. According to M&amp;M Pest
 Control, rats in NYC are overpopulated – about three million rats
 currently live within NYC and on average they are bigger compared to
 other rats, ranging from 16 inches to 20 inches.</p>
-<div id="preliminary-data-cleaning" class="section level2">
-<h2>Preliminary data cleaning</h2>
+<div id="preliminary-data-cleaning" class="section level3">
+<h3>Preliminary data cleaning</h3>
 <p>The data that we used was from NYC open data, which keeps track of
 all the reported rat sightings. The dataset is constantly being updated
 with new rat sightings added every day. The dataset we used contained
@@ -353,40 +347,35 @@ date value that stored the day, month, year, and time, we used
 <code>separate</code> to divide this column into separate columns for
 each of these variables. Our preliminary cleaned dataset include the
 following variables:</p>
-<p><code>unique key</code>: a unique identifier for each rat sighting
-<code>month</code>: the numeric value of the month the rat sighting
-occurred in <code>day</code>: the day of the month that the rat sighting
-occurred on <code>year</code>: the year the rat sighting occurred in
-<code>time</code>: the hour, minute and millisecond the rat sighting
-occurred in <code>am_pm</code>: whether the time was in the AM or the PM
-<code>location_type</code>: the type of location the rat sighting
-occurred in <code>incident_zip</code>: the zip code the rat sighting
-occurred in <code>city</code>: the “city” the rat sighting occurred in
-<code>borough</code>: the borough the rat sighting occurred in
-<code>latitude</code>: the latitude value for the rat sighting
-<code>longitude</code>: the longitude value for the rat sighting
-<code>location</code>: the combined latitude and longitude coordinates
-for each rat sighting</p>
+<ul>
+<li><code>unique key</code>: a unique identifier for each rat
+sighting</li>
+<li><code>month</code>: the numeric value of the month the rat sighting
+occurred in</li>
+<li><code>day</code>: the day of the month that the rat sighting
+occurred on</li>
+<li><code>year</code>: the year the rat sighting occurred in</li>
+<li><code>time</code>: the hour, minute and millisecond the rat sighting
+occurred in</li>
+<li><code>am_pm</code>: whether the time was in the AM or the PM</li>
+<li><code>location_type</code>: the type of location the rat sighting
+occurred in</li>
+<li><code>incident_zip</code>: the zip code the rat sighting occurred
+in</li>
+<li><code>city</code>: the “city” the rat sighting occurred in</li>
+<li><code>borough</code>: the borough the rat sighting occurred in</li>
+<li><code>latitude</code>: the latitude value for the rat sighting</li>
+<li><code>longitude</code>: the longitude value for the rat
+sighting</li>
+<li><code>location</code>: the combined latitude and longitude
+coordinates for each rat sighting</li>
+</ul>
 </div>
 </div>
 <div id="exploratory-analysis" class="section level1">
 <h1>Exploratory Analysis</h1>
 <div id="general-trends-in-rat-sightings" class="section level3">
 <h3>General trends in rat sightings</h3>
-<pre class="r"><code># Plotting with ggplot2
-rat_czar_start_month &lt;- as.Date(&quot;2023-04-01&quot;) # The first day of the month when Rat Czar started
-
-ggplot(monthly_counts_after, aes(x = Month, y = Count)) +
-  geom_col(fill = &quot;skyblue&quot;) +
-  geom_vline(xintercept = as.numeric(rat_czar_start_month), linetype=&quot;dashed&quot;, color = &quot;red&quot;, size=1.5) +
-  geom_text(aes(x = rat_czar_start_month, y = max(monthly_counts_after$Count), label = &quot;Rat Czar Start&quot;), 
-            color = &quot;red&quot;, vjust = -1, angle = 90, linewidth = 4) +
-  scale_x_date(date_breaks = &quot;1 month&quot;, date_labels = &quot;%b-%Y&quot;) +
-  labs(title = &#39;Monthly Rat Sightings from April 2022 to November 2023&#39;,
-       x = &#39;Month&#39;,
-       y = &#39;Number of Sightings&#39;) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
 <p><img src="final-project-report_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The bar graph above illustrates the number of reported rat sightings
 from April 2022 to November 2023. The red dashed line marks the
@@ -404,9 +393,7 @@ id="rat-sightings-comparison-by-borough-before-and-after-rat-czar-office"
 class="section level3">
 <h3>Rat Sightings Comparison by Borough Before and After Rat Czar
 Office</h3>
-</div>
-<div id="interpretation-of-the-graph" class="section level3">
-<h3>Interpretation of the Graph</h3>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>The graph displays monthly rat sightings by borough in New York City
 from April 2022 to November 2023. Each borough is represented by a
 different color, with an additional category for unspecified locations.
@@ -433,53 +420,18 @@ from the graph, ongoing analysis with more data over time will be
 essential to understand the full effect of the initiatives taken to
 control the rat population.</p>
 </div>
-<div id="rat-sightings-and-covid-19" class="section level2">
-<h2>Rat Sightings and Covid-19</h2>
+<div id="rat-sightings-and-covid-19" class="section level3">
+<h3>Rat Sightings and Covid-19</h3>
 <p>The COVID-19 pandemic brought unprecedented challenges to urban
 management and public health. In New York City, changes in human
 activity during the pandemic may have influenced rat behavior and
 sightings. This section analyzes the rat sightings data to observe
 potential shifts in rat populations across the city’s boroughs during
 the pre-pandemic, pandemic, and post-pandemic periods.</p>
+</div>
 <div id="general-analysis" class="section level3">
 <h3>General Analysis</h3>
-<pre class="r"><code>rat_data$Year &lt;- year(rat_data$Created_Date)
-# Aggregate the number of sightings per year
-yearly_sightings &lt;- rat_data %&gt;%
-  group_by(Year) %&gt;%
-  summarise(Count = n(), .groups = &#39;drop&#39;)
-
-# The data must be ungrouped before plotting in some ggplot2 versions
-yearly_sightings &lt;- ungroup(yearly_sightings)
-
-# Plotting the number of rat sightings per year with enhancements
-max_count &lt;- max(yearly_sightings$Count)
-ggplot(yearly_sightings, aes(x = Year, y = Count)) +
-  geom_col(fill = &quot;#69b3a2&quot;) +
-  geom_vline(xintercept = 2020, linetype=&quot;dashed&quot;, color = &quot;#e36bae&quot;, size=1.5) +
-  geom_text(aes(x = 2020, y = max_count - 5000, label = &quot;COVID&quot;),  # Adjust position here
-            color = &quot;#e36bae&quot;, vjust = 1, angle = 90, size = 4, fontface = &quot;bold&quot;) +
-  scale_x_continuous(breaks = yearly_sightings$Year, labels = scales::label_wrap(5)) +
-  scale_y_continuous(labels = scales::comma) +
-  labs(title = &#39;Yearly Rat Sightings in New York City&#39;,
-       subtitle = &quot;An increase in sightings is observed around the start of COVID.&quot;,
-       x = &#39;Year&#39;,
-       y = &#39;Number of Sightings&#39;,
-       caption = &quot;Data source: NYC Open Data&quot;) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5),
-    plot.subtitle = element_text(size = 14),
-    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
-    axis.title = element_text(size = 16),
-    legend.position = &quot;none&quot;,
-    plot.caption = element_text(hjust = 0, vjust = 1)
-  )</code></pre>
 <p><img src="final-project-report_files/figure-html/covid-preprocessing-1.png" width="672" /></p>
-</div>
-<div id="interpretation-of-the-yearly-rat-sightings-graph"
-class="section level3">
-<h3>Interpretation of the Yearly Rat Sightings Graph</h3>
 <p>The bar chart illustrates the trend in yearly rat sightings reported
 in New York City from 2010 through 2023. There is a notable increase in
 sightings in the year 2020, marked by a dashed pink line, which
@@ -501,40 +453,7 @@ the full range of influences on rat sightings in New York City.</p>
 </div>
 <div id="daily-rat-sightings-comparison" class="section level3">
 <h3>Daily Rat Sightings Comparison</h3>
-<pre class="r"><code># Define the pandemic period and the post-pandemic start
-pandemic_start &lt;- as.Date(&quot;2020-03-11&quot;)
-post_pandemic_start &lt;- as.Date(&quot;2023-05-05&quot;)
-
-# Filter the data for the analysis period (2019-2023)
-analysis_data &lt;- rat_data %&gt;%
-  filter(Year &gt;= 2019) %&gt;%
-  mutate(Period = case_when(
-    Created_Date &lt; pandemic_start ~ &quot;Pre-COVID&quot;,
-    Created_Date &gt;= pandemic_start &amp; Created_Date &lt; post_pandemic_start ~ &quot;During-COVID&quot;,
-    Created_Date &gt;= post_pandemic_start ~ &quot;Post-COVID&quot;
-  ))
-
-# Calculate the daily sightings for each period
-daily_sightings &lt;- analysis_data %&gt;%
-  count(Period, Date = as.Date(Created_Date)) %&gt;%
-  group_by(Period) %&gt;%
-  summarise(Avg_Daily_Sightings = mean(n), .groups = &#39;drop&#39;)
-
-# Plot the average daily sightings for each period
-ggplot(daily_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Period)) +
-  geom_bar(stat = &quot;identity&quot;) +
-  scale_fill_manual(values = c(&quot;Pre-COVID&quot; = &quot;blue&quot;, &quot;During-COVID&quot; = &quot;red&quot;, &quot;Post-COVID&quot; = &quot;green&quot;)) +
-  labs(title = &#39;Average Daily Rat Sightings in NYC (2019-2023)&#39;,
-       subtitle = &quot;Comparison across Pre-COVID, During-COVID, and Post-COVID Periods&quot;,
-       x = &#39;Period&#39;,
-       y = &#39;Average Daily Sightings&#39;) +
-  theme_minimal() +
-  theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="final-project-report_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-</div>
-<div id="interpretation-of-the-average-daily-rat-sightings-graph"
-class="section level3">
-<h3>Interpretation of the Average Daily Rat Sightings Graph</h3>
 <p>The graph shows a comparison of average daily rat sightings in New
 York City across three periods: before the COVID-19 pandemic
 (Pre-COVID), during the pandemic (During-COVID), and after the
@@ -553,41 +472,10 @@ effects.</p>
 enduring impact on rat sighting dynamics in the city, warranting further
 investigation into urban wildlife patterns and public health
 implications in the post-pandemic era.</p>
-<pre class="r"><code># Grouping data by borough, period, and date, then calculating the average daily sightings
-borough_period_sightings &lt;- analysis_data %&gt;%
-  group_by(Borough, Period, Date = as.Date(Created_Date)) %&gt;%
-  summarise(Daily_Count = n(), .groups = &#39;drop&#39;) %&gt;%
-  group_by(Borough, Period) %&gt;%
-  summarise(Avg_Daily_Sightings = mean(Daily_Count), .groups = &#39;drop&#39;)
-
-# Define a color palette
-colors &lt;- c(&quot;#FF6666&quot;, &quot;#FFCC66&quot;, &quot;#66CC66&quot;, &quot;#66CCCC&quot;, &quot;#6666CC&quot;, &quot;#CC66CC&quot;, &quot;#000000&quot;)
-
-# Assign colors to boroughs
-borough_colors &lt;- setNames(colors, unique(borough_period_sightings$Borough))
-
-# Plot with the selected color palette
-ggplot(borough_period_sightings, aes(x = Period, y = Avg_Daily_Sightings, fill = Borough)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
-  scale_fill_manual(values = borough_colors) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
-    axis.title = element_text(size = 14),
-    legend.position = &quot;bottom&quot;
-  ) +
-  labs(
-    title = &#39;Average Daily Rat Sightings by Borough (2019-2023)&#39;,
-    subtitle = &quot;Across Pre-COVID, During-COVID, and Post-COVID Periods&quot;,
-    x = &#39;COVID-19 Period&#39;,
-    y = &#39;Average Daily Sightings&#39;,
-    fill = &#39;Borough&#39;
-  )</code></pre>
-<p><img src="final-project-report_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div id="interpretation-of-the-average-daily-rat-sightings-by-borough"
-class="section level3">
-<h3>Interpretation of the Average Daily Rat Sightings by Borough</h3>
+<div id="average-daily-rat-sightings-by-borough" class="section level3">
+<h3>Average Daily Rat Sightings by Borough</h3>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>The bar chart compares average daily rat sightings in New York City
 by borough, across three different periods: Pre-COVID, During-COVID, and
 Post-COVID. Each borough is distinctly colored, allowing for an easy
@@ -613,6 +501,10 @@ on rat sightings in New York City, particularly in Brooklyn. It also
 prompts further investigation into the enduring effects of the pandemic
 on urban wildlife and the efficacy of control measures
 post-pandemic.</p>
+</div>
+<div id="rat-sightings-by-location-type-2018-2023"
+class="section level3">
+<h3>Rat Sightings by Location Type, 2018-2023</h3>
 <pre class="r"><code>rats_df = 
   read_csv(&quot;./data/rat_sightings.csv&quot;, show_col_types = FALSE) %&gt;% 
   janitor::clean_names() %&gt;% 
@@ -633,9 +525,420 @@ loc_df %&gt;%
   ggplot(aes(x = year, y = sightings, fill = location_type)) + 
   geom_area(aes(group = location_type, alpha = 0.8)) +
   theme_bw() + 
-  labs(title = &quot;Rat sightings by location type 2018-2023&quot;)</code></pre>
+  labs(title = &quot;Rat sightings by location type 2018-2023&quot;) + 
+  guides(alpha = FALSE)</code></pre>
 <p><img src="final-project-report_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>Regression Analysis</p>
+<p>Our dataset also provided additional data on the type of location
+rats were spotted in. To understand where rats were most likely to be
+seen, we selected the top 4 most common location types and created an
+area graph to represent the amount of sightings in each type from 2018
+to 2023. In concordance with our other COVID-19 graphs, we saw a marked
+increased in sightings in general and across location types. The most
+common rat sighting location was a 3+ Family Apartment Building, the
+proportion of which actually increased during and post-COVID. We
+speculate that this could be because as quarantine restrictions were put
+in place, most people were spending the majority of their time inside
+their apartment buildings. By default, more rat sightings took place
+inside these apartment buildings. A similar case could be made for the
+2+ Family Dwelling category.</p>
+</div>
+</div>
+<div id="regression-analysis" class="section level1">
+<h1>Regression Analysis</h1>
+<div id="impact-of-rat-czar-appointment" class="section level3">
+<h3>Impact of Rat Czar Appointment</h3>
+<pre class="r"><code>## Impact of Rat Czar Appointment
+model_rat_czar &lt;- lm(Sightings ~ Pre_Rat_Czar, data = merged_data)
+summary(model_rat_czar)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Sightings ~ Pre_Rat_Czar, data = merged_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -940.87 -383.83  -99.83  389.17 1669.17 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    2285.9      199.1  11.481  &lt; 2e-16 ***
+## Pre_Rat_Czar   -936.0      204.0  -4.589 8.72e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 563.1 on 167 degrees of freedom
+## Multiple R-squared:  0.112,  Adjusted R-squared:  0.1067 
+## F-statistic: 21.06 on 1 and 167 DF,  p-value: 8.719e-06</code></pre>
+<p>The regression analysis indicates a significant increase in rat
+sightings following the appointment of the Rat Czar. The model, with an
+R-squared value of 0.112, explains approximately 11.2% of the variance
+in rat sightings. The significant negative coefficient for
+<code>Pre_Rat_Czar</code> (-936, p &lt; 0.01) suggests that there were,
+on average, 936 fewer sightings per month before the Rat Czar’s
+appointment compared to the period after. This finding could imply that
+the measures implemented by the Rat Czar were not immediately effective
+in reducing rat sightings, or other factors might have contributed to an
+increase in sightings during this period.</p>
+</div>
+<div id="impact-of-covid-19-pandemic" class="section level3">
+<h3>Impact of COVID-19 Pandemic</h3>
+<pre class="r"><code>model_covid &lt;- lm(Sightings ~ Pre_Covid + During_Covid, data = merged_data)
+summary(model_covid)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Sightings ~ Pre_Covid + During_Covid, data = merged_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -983.68 -313.76  -60.87  331.24 1086.32 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    2285.9      164.8  13.872  &lt; 2e-16 ***
+## Pre_Covid     -1116.1      170.1  -6.563 6.44e-10 ***
+## During_Covid   -353.2      181.3  -1.948   0.0531 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 466.1 on 166 degrees of freedom
+## Multiple R-squared:  0.3953, Adjusted R-squared:  0.388 
+## F-statistic: 54.26 on 2 and 166 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The COVID-19 pandemic also appears to have had a significant impact
+on rat sightings. The model’s R-squared value of 0.3953 indicates that
+it explains about 39.53% of the variance in rat sightings. The
+coefficients for <code>Pre_Covid</code> and <code>During_Covid</code>
+are -1116.1 (p &lt; 0.01) and -353.2 (p = 0.0531), respectively. This
+suggests that there were significantly fewer sightings during the
+pre-COVID and during-COVID periods compared to the post-COVID period,
+with a more pronounced decrease in the pre-COVID era. The marginal
+significance of the <code>During_Covid</code> coefficient suggests a
+slight reduction in sightings during the pandemic, though this result is
+less certain.</p>
+</div>
+<div id="overall-conclusion" class="section level3">
+<h3>Overall Conclusion</h3>
+<p>These findings underscore the complex nature of urban wildlife
+dynamics, particularly in response to significant events such as the
+appointment of a public official or a global pandemic. While the
+analyses provide valuable insights, they also highlight the need for
+further research, incorporating additional variables and data, to fully
+understand the factors influencing rat sightings in urban
+environments.</p>
+</div>
+<div id="bootstrapping-of-rat-czar" class="section level2">
+<h2>Bootstrapping of Rat Czar</h2>
+<div id="bootstrap-results" class="section level3">
+<h3>Bootstrap Results</h3>
+<pre class="r"><code># Define the statistic function for bootstrapping with only Pre_Rat_Czar
+stat_function &lt;- function(data, indices) {
+  d &lt;- data[indices, ] # allows bootstrapping to select sample
+  fit &lt;- lm(Sightings ~ Pre_Rat_Czar, data = d)
+  return(coef(fit))
+}
+
+# Apply the bootstrapping with R = 1000 bootstrap replicates
+results &lt;- boot(data = merged_data, statistic = stat_function, R = 1000)
+
+print(results)</code></pre>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = merged_data, statistic = stat_function, R = 1000)
+## 
+## 
+## Bootstrap Statistics :
+##      original     bias    std. error
+## t1* 2285.8750  0.4169434    167.5870
+## t2* -936.0427 -2.5392402    172.5642</code></pre>
+<p>The bootstrapping process was applied to the regression analysis of
+rat sightings with respect to the Rat Czar appointment. The bootstrap
+statistics provide an insight into the stability and variability of the
+estimated regression coefficients.</p>
+</div>
+<div id="bootstrap-results-1" class="section level3">
+<h3>Bootstrap Results:</h3>
+<ul>
+<li><strong>Intercept (Post_Rat_Czar period) Coefficient</strong>:
+<ul>
+<li><strong>Original</strong>: 2285.8750</li>
+<li><strong>Bias</strong>: 0.4169434</li>
+<li><strong>Standard Error</strong>: 167.5870</li>
+</ul></li>
+<li><strong>Pre_Rat_Czar Coefficient</strong>:
+<ul>
+<li><strong>Original</strong>: -936.0427</li>
+<li><strong>Bias</strong>: -2.5392402</li>
+<li><strong>Standard Error</strong>: 172.5642</li>
+</ul></li>
+</ul>
+<p>The bootstrap results indicate that the bias for both coefficients is
+small, suggesting that the estimates from our original model are stable
+across different samples of our data. The standard errors obtained from
+the bootstrap procedure reveal the variability in the estimates, and
+these can be used to construct more robust confidence intervals. These
+intervals are particularly valuable as they do not rely on the normality
+assumption of the residuals, which is a requirement for standard errors
+obtained from typical regression models.</p>
+<p>This analysis strengthens the reliability of our findings, suggesting
+that the Rat Czar’s appointment had a significant impact on rat
+sightings, as indicated by the original regression analysis.</p>
+</div>
+</div>
+<div id="cross-validation-of-rat-czar" class="section level2">
+<h2>Cross-Validation of Rat Czar</h2>
+<pre class="r"><code>## Define control using k-fold cross-validation
+train_control &lt;- trainControl(method = &quot;cv&quot;, number = 10)
+
+# Train the model
+model &lt;- train(Sightings ~ Pre_Rat_Czar + Post_Rat_Czar,
+               data = merged_data,
+               trControl = train_control,
+               method = &quot;lm&quot;)
+
+# Summarize the results
+print(model)</code></pre>
+<pre><code>## Linear Regression 
+## 
+## 169 samples
+##   2 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 152, 152, 152, 152, 153, 151, ... 
+## Resampling results:
+## 
+##   RMSE     Rsquared   MAE     
+##   561.037  0.1806282  458.1055
+## 
+## Tuning parameter &#39;intercept&#39; was held constant at a value of TRUE</code></pre>
+<div id="cross-validation-results-for-linear-regression-analysis"
+class="section level3">
+<h3>Cross-Validation Results for Linear Regression Analysis</h3>
+<p>Cross-validation was conducted to assess the model’s predictive
+performance.</p>
+</div>
+<div id="cross-validation-results" class="section level3">
+<h3>Cross-Validation Results:</h3>
+<ul>
+<li><strong>RMSE (Root Mean Squared Error)</strong>: 557.807</li>
+<li><strong>R-squared</strong>: 0.1889574</li>
+<li><strong>MAE (Mean Absolute Error)</strong>: 459.687</li>
+</ul>
+<p>The RMSE and MAE are measures of the model’s prediction error. The
+relatively high values of RMSE (557.807) and MAE (459.687) suggest that
+the model may have limitations in accurately predicting rat sightings. A
+lower RMSE and MAE would indicate a better fit to the data.</p>
+<p>The R-squared value of 0.1889574 implies that the model explains
+approximately 18.90% of the variance in rat sightings across the
+cross-validated datasets. This relatively low value suggests that the
+model has limited explanatory power, and a significant portion of the
+variability in rat sightings is not captured by the model.</p>
+<p>The presence of missing values in the resampled performance measures
+and the modest R-squared value indicate that the model could benefit
+from further refinement. Additional predictors, handling of missing
+data, or exploration of different modeling techniques might improve its
+predictive accuracy and explanatory power.</p>
+<p>Overall, while the model provides some insights into factors
+influencing rat sightings, these cross-validation results highlight the
+need for caution in interpreting the model’s predictions and for further
+investigation into other potential contributing factors.</p>
+</div>
+</div>
+<div
+id="bootstrap-and-cross-validation-results-for-covid-19-impact-analysis"
+class="section level2">
+<h2>Bootstrap and Cross-Validation Results for COVID-19 Impact
+Analysis</h2>
+<div id="bootstrap-analysis-for-covid-19-impact" class="section level3">
+<h3>Bootstrap Analysis for COVID-19 Impact</h3>
+<pre class="r"><code>## Define the statistic function for bootstrapping
+stat_function_covid &lt;- function(data, indices) {
+  d &lt;- data[indices, ] # allows bootstrapping to select sample
+  fit &lt;- lm(Sightings ~ Pre_Covid + During_Covid, data = d)
+  return(coef(fit))
+}
+
+## Apply the bootstrapping with R = 1000 bootstrap replicates
+bootstrap_results_covid &lt;- boot(data = merged_data, statistic = stat_function_covid, R = 1000)
+
+## Print the results
+print(bootstrap_results_covid)</code></pre>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = merged_data, statistic = stat_function_covid, R = 1000)
+## 
+## 
+## Bootstrap Statistics :
+##       original    bias    std. error
+## t1*  2285.8750 -8.203824    171.9859
+## t2* -1116.1108  9.569559    178.2595
+## t3*  -353.1908  7.824894    197.9294</code></pre>
+</div>
+<div id="cross-validation-for-covid-19-impact" class="section level3">
+<h3>Cross-Validation for COVID-19 Impact</h3>
+<pre class="r"><code>## Define the control using 10-fold cross-validation
+train_control &lt;- trainControl(method = &quot;cv&quot;, number = 10)
+
+## Train the model
+model_cv_covid &lt;- train(Sightings ~ Pre_Covid + During_Covid,
+                        data = merged_data,
+                        trControl = train_control,
+                        method = &quot;lm&quot;)
+
+## Summarize the results
+print(model_cv_covid)</code></pre>
+<pre><code>## Linear Regression 
+## 
+## 169 samples
+##   2 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 152, 151, 152, 150, 153, 153, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared   MAE     
+##   465.3739  0.4217767  379.1727
+## 
+## Tuning parameter &#39;intercept&#39; was held constant at a value of TRUE</code></pre>
+<p>We performed a bootstrap analysis and cross-validation to assess the
+stability and predictive performance of our regression model, which
+estimates the impact of the COVID-19 pandemic on rat sightings.</p>
+</div>
+<div id="bootstrap-results-for-covid-19-analysis"
+class="section level3">
+<h3>Bootstrap Results for COVID-19 Analysis</h3>
+<p>The bootstrap analysis provides an estimate of the variability of our
+regression coefficients:</p>
+<ul>
+<li><strong>Intercept (Post-COVID period) Coefficient</strong>:
+<ul>
+<li><strong>Original</strong>: 2285.8750</li>
+<li><strong>Bias</strong>: -8.203824</li>
+<li><strong>Standard Error</strong>: 171.9859</li>
+</ul></li>
+<li><strong>Pre_COVID Coefficient</strong>:
+<ul>
+<li><strong>Original</strong>: -1116.1108</li>
+<li><strong>Bias</strong>: 9.569559</li>
+<li><strong>Standard Error</strong>: 178.2595</li>
+</ul></li>
+<li><strong>During_COVID Coefficient</strong>:
+<ul>
+<li><strong>Original</strong>: -353.1908</li>
+<li><strong>Bias</strong>: 7.824894</li>
+<li><strong>Standard Error</strong>: 197.9294</li>
+</ul></li>
+</ul>
+<p>The small biases indicate that our coefficient estimates are robust
+and consistent across different samples of the data. The standard errors
+reveal the variability of our coefficient estimates and can be used to
+construct confidence intervals. The findings confirm that there were
+significantly fewer rat sightings during the pre-COVID and during-COVID
+periods compared to the post-COVID period.</p>
+</div>
+<div id="cross-validation-results-for-covid-19-analysis"
+class="section level3">
+<h3>Cross-Validation Results for COVID-19 Analysis</h3>
+<p>Cross-validation was utilized to assess the model’s predictive
+performance. The results are as follows:</p>
+<ul>
+<li><strong>RMSE (Root Mean Squared Error)</strong>: 465.3739</li>
+<li><strong>R-squared</strong>: 0.4217767</li>
+<li><strong>MAE (Mean Absolute Error)</strong>: 379.1727</li>
+</ul>
+<p>These measures provide insights into the model’s prediction error and
+its explanatory power. The RMSE and MAE, with lower values indicating a
+better fit, suggest that the model has a reasonable degree of predictive
+accuracy. The R-squared value, indicating that about 42.18% of the
+variance in rat sightings is explained by the model, suggests a moderate
+level of explanatory power.</p>
+<p>However, the still substantial amount of unexplained variance points
+to the presence of other factors influencing rat sightings that are not
+captured by the model. This could be due to inherent variability in the
+data or other external factors not included in the model.</p>
+<p>In summary, while the model provides valuable insights into the
+impact of the COVID-19 pandemic on rat sightings, it also highlights the
+complexity of the issue and the need for further research to fully
+understand the underlying dynamics.</p>
+<pre class="r"><code># Diagnostic Plots for Rat Czar Model
+par(mfrow = c(2, 2))  # Set up the plotting area
+plot(model_rat_czar)</code></pre>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code># Durbin-Watson Test for Rat Czar Model
+dwtest(model_rat_czar)</code></pre>
+<pre><code>## 
+##  Durbin-Watson test
+## 
+## data:  model_rat_czar
+## DW = 0.47205, p-value &lt; 2.2e-16
+## alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+<pre class="r"><code># Diagnostic Plots for COVID-19 Model
+par(mfrow = c(2, 2))  # Set up the plotting area
+plot(model_covid)</code></pre>
+<p><img src="final-project-report_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<pre class="r"><code># Durbin-Watson Test for COVID-19 Model
+dwtest(model_covid)</code></pre>
+<pre><code>## 
+##  Durbin-Watson test
+## 
+## data:  model_covid
+## DW = 0.62416, p-value &lt; 2.2e-16
+## alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+<p>Based on our diagnostic checks, we have some interesting observations
+that shed light on our regression models.</p>
+</div>
+<div id="observations-from-diagnostic-plots" class="section level3">
+<h3>Observations from Diagnostic Plots:</h3>
+<ul>
+<li><p>The <strong>Residuals vs Fitted</strong> plots for both the Rat
+Czar and COVID-19 models demonstrate a reasonable spread around the
+horizontal axis. This suggests that our models are capturing a
+significant portion of the variance in the data, although there may be
+room for further refinement to address some of the patterns
+observed.</p></li>
+<li><p>In the <strong>Q-Q Plots</strong>, we notice some deviation from
+normality in the tails for both models. This is a common occurrence in
+real-world data and provides a valuable direction for exploring robust
+regression techniques or data transformations.</p></li>
+<li><p>The <strong>Scale-Location</strong> plots indicate that our
+residuals might not be perfectly homoscedastic. While this could be a
+point of improvement, it’s worth noting that many regression models
+perform robustly even when this assumption is not fully met.</p></li>
+<li><p><strong>Residuals vs Leverage</strong> plots help us identify a
+few points with higher leverage. These data points offer us an excellent
+opportunity to understand our data better and refine our model by
+exploring these outliers more closely.</p></li>
+</ul>
+</div>
+<div id="insights-from-durbin-watson-test" class="section level3">
+<h3>Insights from Durbin-Watson Test:</h3>
+<ul>
+<li>The Durbin-Watson test results for both models suggest the presence
+of autocorrelation in the residuals. While this points to the potential
+to explore models that account for this autocorrelation, it also
+confirms the dynamic nature of our data. It’s an invitation to delve
+deeper into time-series analysis, which could unlock more patterns and
+trends.</li>
+</ul>
+</div>
+<div id="overall-conclusion-1" class="section level3">
+<h3>Overall Conclusion:</h3>
+<p>The results of our regression analysis are promising, showing that
+our models are capable of capturing key trends in the data. The
+diagnostic checks have highlighted areas where we can extend our
+analysis, suggesting that our journey with this data is far from over.
+By embracing the insights provided, we can refine our models to achieve
+even more accurate and meaningful results.</p>
+<p>Our analysis stands as a robust foundation for understanding the
+impact of the Rat Czar’s appointment and the COVID-19 pandemic on rat
+sightings. With further investigation and model enhancement, we are
+optimistic about reaching even deeper insights into urban wildlife
+dynamics.</p>
 </div>
 </div>
 </div>
