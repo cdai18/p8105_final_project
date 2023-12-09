@@ -606,17 +606,6 @@ environments.</p>
 <h2>Bootstrapping of Rat Czar</h2>
 <div id="bootstrap-results" class="section level3">
 <h3>Bootstrap Results</h3>
-<pre class="r"><code># Define the statistic function for bootstrapping with only Pre_Rat_Czar
-stat_function &lt;- function(data, indices) {
-  d &lt;- data[indices, ] # allows bootstrapping to select sample
-  fit &lt;- lm(Sightings ~ Pre_Rat_Czar, data = d)
-  return(coef(fit))
-}
-
-# Apply the bootstrapping with R = 1000 bootstrap replicates
-results &lt;- boot(data = merged_data, statistic = stat_function, R = 1000)
-
-print(results)</code></pre>
 <pre><code>## 
 ## ORDINARY NONPARAMETRIC BOOTSTRAP
 ## 
@@ -665,17 +654,6 @@ sightings, as indicated by the original regression analysis.</p>
 </div>
 <div id="cross-validation-of-rat-czar" class="section level2">
 <h2>Cross-Validation of Rat Czar</h2>
-<pre class="r"><code>## Define control using k-fold cross-validation
-train_control &lt;- trainControl(method = &quot;cv&quot;, number = 10)
-
-# Train the model
-model &lt;- train(Sightings ~ Pre_Rat_Czar + Post_Rat_Czar,
-               data = merged_data,
-               trControl = train_control,
-               method = &quot;lm&quot;)
-
-# Summarize the results
-print(model)</code></pre>
 <pre><code>## Linear Regression 
 ## 
 ## 169 samples
@@ -730,18 +708,6 @@ class="section level2">
 Analysis</h2>
 <div id="bootstrap-analysis-for-covid-19-impact" class="section level3">
 <h3>Bootstrap Analysis for COVID-19 Impact</h3>
-<pre class="r"><code>## Define the statistic function for bootstrapping
-stat_function_covid &lt;- function(data, indices) {
-  d &lt;- data[indices, ] # allows bootstrapping to select sample
-  fit &lt;- lm(Sightings ~ Pre_Covid + During_Covid, data = d)
-  return(coef(fit))
-}
-
-## Apply the bootstrapping with R = 1000 bootstrap replicates
-bootstrap_results_covid &lt;- boot(data = merged_data, statistic = stat_function_covid, R = 1000)
-
-## Print the results
-print(bootstrap_results_covid)</code></pre>
 <pre><code>## 
 ## ORDINARY NONPARAMETRIC BOOTSTRAP
 ## 
@@ -758,17 +724,6 @@ print(bootstrap_results_covid)</code></pre>
 </div>
 <div id="cross-validation-for-covid-19-impact" class="section level3">
 <h3>Cross-Validation for COVID-19 Impact</h3>
-<pre class="r"><code>## Define the control using 10-fold cross-validation
-train_control &lt;- trainControl(method = &quot;cv&quot;, number = 10)
-
-## Train the model
-model_cv_covid &lt;- train(Sightings ~ Pre_Covid + During_Covid,
-                        data = merged_data,
-                        trControl = train_control,
-                        method = &quot;lm&quot;)
-
-## Summarize the results
-print(model_cv_covid)</code></pre>
 <pre><code>## Linear Regression 
 ## 
 ## 169 samples
@@ -843,24 +798,17 @@ data or other external factors not included in the model.</p>
 impact of the COVID-19 pandemic on rat sightings, it also highlights the
 complexity of the issue and the need for further research to fully
 understand the underlying dynamics.</p>
-<pre class="r"><code># Diagnostic Plots for Rat Czar Model
-par(mfrow = c(2, 2))  # Set up the plotting area
-plot(model_rat_czar)</code></pre>
+</div>
+<div id="diagnostic-plots" class="section level3">
+<h3>Diagnostic Plots</h3>
 <p><img src="final-project-report_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<pre class="r"><code># Durbin-Watson Test for Rat Czar Model
-dwtest(model_rat_czar)</code></pre>
 <pre><code>## 
 ##  Durbin-Watson test
 ## 
 ## data:  model_rat_czar
 ## DW = 0.47205, p-value &lt; 2.2e-16
 ## alternative hypothesis: true autocorrelation is greater than 0</code></pre>
-<pre class="r"><code># Diagnostic Plots for COVID-19 Model
-par(mfrow = c(2, 2))  # Set up the plotting area
-plot(model_covid)</code></pre>
 <p><img src="final-project-report_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
-<pre class="r"><code># Durbin-Watson Test for COVID-19 Model
-dwtest(model_covid)</code></pre>
 <pre><code>## 
 ##  Durbin-Watson test
 ## 

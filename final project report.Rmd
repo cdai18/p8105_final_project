@@ -372,7 +372,7 @@ These findings underscore the complex nature of urban wildlife dynamics, particu
 ## Bootstrapping of Rat Czar
 
 ### Bootstrap Results
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 # Define the statistic function for bootstrapping with only Pre_Rat_Czar
 stat_function <- function(data, indices) {
   d <- data[indices, ] # allows bootstrapping to select sample
@@ -406,7 +406,7 @@ This analysis strengthens the reliability of our findings, suggesting that the R
 
 ## Cross-Validation of Rat Czar
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 ## Define control using k-fold cross-validation
 train_control <- trainControl(method = "cv", number = 10)
 
@@ -442,7 +442,7 @@ Overall, while the model provides some insights into factors influencing rat sig
 ## Bootstrap and Cross-Validation Results for COVID-19 Impact Analysis
 
 ### Bootstrap Analysis for COVID-19 Impact
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 ## Define the statistic function for bootstrapping
 stat_function_covid <- function(data, indices) {
   d <- data[indices, ] # allows bootstrapping to select sample
@@ -458,7 +458,7 @@ print(bootstrap_results_covid)
 ```
 
 ### Cross-Validation for COVID-19 Impact
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 ## Define the control using 10-fold cross-validation
 train_control <- trainControl(method = "cv", number = 10)
 
@@ -509,7 +509,9 @@ However, the still substantial amount of unexplained variance points to the pres
 
 In summary, while the model provides valuable insights into the impact of the COVID-19 pandemic on rat sightings, it also highlights the complexity of the issue and the need for further research to fully understand the underlying dynamics.
 
-```{r}
+### Diagnostic Plots
+
+```{r echo = FALSE}
 # Diagnostic Plots for Rat Czar Model
 par(mfrow = c(2, 2))  # Set up the plotting area
 plot(model_rat_czar)
