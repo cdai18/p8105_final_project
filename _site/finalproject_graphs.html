@@ -701,7 +701,8 @@ loc_df %&gt;%
   ggplot(aes(x = year, y = sightings, fill = location_type)) + 
   geom_area(aes(group = location_type, alpha = 0.8)) +
   theme_bw() + 
-  labs(title = &quot;Rat sightings by location type 2018-2023&quot;)</code></pre>
+  labs(title = &quot;Rat sightings by location type 2018-2023&quot;) + 
+  guides(alpha = FALSE)</code></pre>
 <p><img src="finalproject_graphs_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Our dataset also provided additional data on the type of location
 rats were spotted in. To understand where rats were most likely to be

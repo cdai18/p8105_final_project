@@ -278,7 +278,8 @@ loc_df %>%
   ggplot(aes(x = year, y = sightings, fill = location_type)) + 
   geom_area(aes(group = location_type, alpha = 0.8)) +
   theme_bw() + 
-  labs(title = "Rat sightings by location type 2018-2023")
+  labs(title = "Rat sightings by location type 2018-2023") + 
+  guides(alpha = FALSE)
 ```
 
 Our dataset also provided additional data on the type of location rats were spotted in. To understand where rats were most likely to be seen, we selected the top 4 most common location types and created an area graph to represent the amount of sightings in each type from 2018 to 2023. In concordance with our other COVID-19 graphs, we saw a marked increased in sightings in general and across location types. The most common rat sighting location was a 3+ Family Apartment Building, the proportion of which actually increased during and post-COVID. We speculate that this could be because as quarantine restrictions were put in place, most people were spending the majority of their time inside their apartment buildings. By default, more rat sightings took place inside these apartment buildings. A similar case could be made for the 2+ Family Dwelling category.
