@@ -156,7 +156,7 @@ Lastly, the unspecified category indicates reports that did not have a borough l
 
 Overall, while the Rat Czar's impact isn't immediately discernible from the graph, ongoing analysis with more data over time will be essential to understand the full effect of the initiatives taken to control the rat population.
 
-### Rat Sightings and Covid-19
+## Rat Sightings and Covid-19
 The COVID-19 pandemic brought unprecedented challenges to urban management and public health. In New York City, changes in human activity during the pandemic may have influenced rat behavior and sightings. This section analyzes the rat sightings data to observe potential shifts in rat populations across the city's boroughs during the pre-pandemic, pandemic, and post-pandemic periods.
 
 ### General Analysis
@@ -290,7 +290,7 @@ This visual analysis underscores the impact of the COVID-19 pandemic on rat sigh
 
 ### Rat Sightings by Location Type, 2018-2023
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo = FALSE}
 rats_df = 
   read_csv("./data/rat_sightings.csv", show_col_types = FALSE) %>% 
   janitor::clean_names() %>% 

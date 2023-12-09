@@ -420,15 +420,14 @@ from the graph, ongoing analysis with more data over time will be
 essential to understand the full effect of the initiatives taken to
 control the rat population.</p>
 </div>
-<div id="rat-sightings-and-covid-19" class="section level3">
-<h3>Rat Sightings and Covid-19</h3>
+<div id="rat-sightings-and-covid-19" class="section level2">
+<h2>Rat Sightings and Covid-19</h2>
 <p>The COVID-19 pandemic brought unprecedented challenges to urban
 management and public health. In New York City, changes in human
 activity during the pandemic may have influenced rat behavior and
 sightings. This section analyzes the rat sightings data to observe
 potential shifts in rat populations across the city’s boroughs during
 the pre-pandemic, pandemic, and post-pandemic periods.</p>
-</div>
 <div id="general-analysis" class="section level3">
 <h3>General Analysis</h3>
 <p><img src="final-project-report_files/figure-html/covid-preprocessing-1.png" width="672" /></p>
@@ -505,28 +504,6 @@ post-pandemic.</p>
 <div id="rat-sightings-by-location-type-2018-2023"
 class="section level3">
 <h3>Rat Sightings by Location Type, 2018-2023</h3>
-<pre class="r"><code>rats_df = 
-  read_csv(&quot;./data/rat_sightings.csv&quot;, show_col_types = FALSE) %&gt;% 
-  janitor::clean_names() %&gt;% 
-  select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %&gt;% 
-  separate(created_date, into = c(&quot;created_date&quot;, &quot;time&quot;, &quot;am_pm&quot;), sep = &quot; &quot;) %&gt;% 
-  separate(created_date, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), sep = &quot;/&quot;)
-
-loc_df = 
-  rats_df %&gt;% 
-    filter(year == &quot;2018&quot; | year == &quot;2019&quot; | year == &quot;2020&quot; | year == &quot;2021&quot; | year == &quot;2022&quot; | year == &quot;2023&quot;) %&gt;% 
-    select(year, location_type) %&gt;% 
-    group_by(year, location_type) %&gt;% 
-    summarize(sightings = n()) %&gt;% 
-    arrange(desc(sightings)) %&gt;% 
-    filter(location_type == &quot;3+ Family Apt. Building&quot; | location_type == &quot;1-2 Family Dwelling&quot; | location_type == &quot;Commercial Building&quot; | location_type == &quot;Construction Site&quot;)
-
-loc_df %&gt;% 
-  ggplot(aes(x = year, y = sightings, fill = location_type)) + 
-  geom_area(aes(group = location_type, alpha = 0.8)) +
-  theme_bw() + 
-  labs(title = &quot;Rat sightings by location type 2018-2023&quot;) + 
-  guides(alpha = FALSE)</code></pre>
 <p><img src="final-project-report_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Our dataset also provided additional data on the type of location
 rats were spotted in. To understand where rats were most likely to be
@@ -541,6 +518,7 @@ in place, most people were spending the majority of their time inside
 their apartment buildings. By default, more rat sightings took place
 inside these apartment buildings. A similar case could be made for the
 2+ Family Dwelling category.</p>
+</div>
 </div>
 </div>
 <div id="regression-analysis" class="section level1">

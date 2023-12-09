@@ -39,7 +39,7 @@ scale_fill_discrete = scale_fill_viridis_d
 # Preliminary data import and cleaning:
 
 rats_df = 
-  read_csv("./data/rat_sightings.csv", ) %>% 
+  read_csv("./data/rat_sightings.csv") %>% 
   janitor::clean_names() %>% 
   select(unique_key, created_date, location_type, incident_zip, city, borough, latitude, longitude, location) %>% 
   separate(created_date, into = c("created_date", "time", "am_pm"), sep = " ") %>% 
