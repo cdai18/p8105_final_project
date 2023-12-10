@@ -42,7 +42,10 @@ However, beyond their quirky fame, we acknowledge the serious concerns associate
 
 Additionally, rats are vectors for fleas, lice, and mites, introducing a host of serious diseases to humans. Increased exposure to rodent hair, droppings, and urine heightens the risk of allergies and asthma. Disease transmission occurs when humans or their pets come into contact with rat saliva, urine, or feces. Furthermore, the structural integrity of our buildings is jeopardized by the rats' gnawing and burrowing activities.
 
-While these pint-sized celebrities have gained recognition in New York and beyond, it remains paramount to manage their population effectively, ensuring the safety and well-being of residents. Vigilant control measures are necessary to mitigate the potential harm posed by these fascinating yet potentially hazardous urban companions
+While these pint-sized celebrities have gained recognition in New York and beyond, it remains paramount to manage their population effectively, ensuring the safety and well-being of residents. Vigilant control measures are necessary to mitigate the potential harm posed by these fascinating yet potentially hazardous urban companions.
+
+# Initial Questions
+With this, we set out to understand rat trends better. Did COVID-19 impact rat sightings? If so, to what degree? What about the implementation of the Rat Czar, a city government position mean to control the rat population (and reputation) of New York City? Can data give us a glimpse into the lives of rats?
 
 # Data
 The goal of our dataset is to see where most of the right sightings are within New York City and understand trends and patterns over time and place. We know that the rat presence is significant within New York City, and seeing where they like to hang out would be crucial information for public health purposes. According to M&M Pest Control, rats in NYC are overpopulated --  about three million rats currently live within NYC and on average they are bigger compared to other rats, ranging from 16 inches to 20 inches. 
